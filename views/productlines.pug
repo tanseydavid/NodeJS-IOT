@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+
+  p
+    for row in rows
+      h3
+        - var href = "/productline/" + row.productLine;
+        a(href=href)
+          p=row.productLine
+      p=row.textDescription
+

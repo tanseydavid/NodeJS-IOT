@@ -1,0 +1,46 @@
+extends layout
+
+block content
+  h1= title
+  p v1.0.0.1
+  h4 NodeJS Reference Application
+  div.row
+    div.column
+      h2 HTML
+      h3
+        ul
+          li
+            a(href='/productlines') Product Lines
+          li
+            a(href='/products') Products
+          li
+            a(href='/customers') Customers
+          li
+            a(href='/orders') Orders
+          li
+            a(href='/offices') Offices
+          li
+            a(href='/employees') Employees
+    div.column
+      h2 API
+      h3
+        ul
+          li
+            a(href='/api/productlines') Product Lines
+          li
+            a(href='/api/products') Products
+          li
+            a(href='/api/customers') Customers
+          li
+            a(href='/api/orders') Orders
+          li
+            a(href='/api/offices') Offices
+          li
+            a(href='/api/employees') Employees
+      h3
+        ul
+          li
+            a(href='/api/ping') Ping
+          li
+            a(href='/api/config') Config
+

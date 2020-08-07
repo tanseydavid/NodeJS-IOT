@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1= title
+
+  - var currentProductLine = ""
+  p
+    for row in rows
+      if (currentProductLine != row.productLine)
+        h2=row.productLine
+        - currentProductLine = row.productLine
+      p
+        span #{row.productName + " (" }
+        a(href=row.href)
+          span.
+            #{row.productCode}
+        span )
+

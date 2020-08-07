@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title
+
+  p
+    for row in rows
+      h4
+        span #{row.customerName + " (" }
+        a(href=row.href)
+          span.
+            #{row.customerNumber}
+        span )
+

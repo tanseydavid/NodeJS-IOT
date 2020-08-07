@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1= title
+
+  p
+    for row in rows
+      h3
+        - var href = "/employee/" + row.employeeNumber;
+        p
+          span #{row.lastName + ", " + row.firstName + " (" }
+          a(href=row.href)
+            span.
+              #{row.employeeNumber}
+          span )
+
+
+
