@@ -22,7 +22,6 @@ const dateFormat = {
   month: "2-digit",
   day: "2-digit",
 };
-// TESTING
 
 // view engine setup
 server.set('views', path.join(__dirname, 'views'));
@@ -53,32 +52,6 @@ server.get("/api/productlines", api.productlines );
 server.get("/api/orders", api.orders);
 server.get("/api/offices", api.offices );
 server.get("/api/employees", api.employees );
-
-// server.get('/productlines', function(req, res) {
-//
-//   res.write("<h1>Product Lines</h1>");
-//
-//   let appRoot = getAppRootUrl( req )
-//
-//   db.query( 'SELECT * FROM productlines' )
-//       .then( rows => {
-//
-//         rows.forEach( (row) => {
-//           row.href = appRoot + "/productline/" + row.productLine;
-//           res.write( '<p><h3><a href="/productline/' + row.productLine + '">' +
-//               row.productLine + "</a></h3>" +
-//               row.textDescription + "<br/>");
-//         });
-//
-//         res.end();
-//
-//       }, err => {
-//         return db.close().then( () => {
-//           res.send("<h3>An error occurred: " + err + "</h3>");
-//           throw err;
-//         })
-//       });
-// });
 
 // catch 404 and forward to error handler
 server.use(function(req, res, next) {
