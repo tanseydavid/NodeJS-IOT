@@ -1,16 +1,15 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../connection');
+const express = require('express');
+const router = express.Router();
+const db = require('../connection');
+const tools = require('../tools');
 
 router.get('/', function(req, res, next) {
-
-  let appRoot = getAppRootUrl( req )
 
   db.query( 'SELECT * FROM customers ORDER BY customerName' )
       .then( rows => {
 
         rows.forEach( (row) => {
-          row.href = appRoot + "/customer/" + row.customerNumber;
+            row.href = tools.hrefForCustomerNumber( req, row.customerNumber );
         });
 
         res.render('customers', { title: 'Customers', rows: rows });
@@ -26,7 +25,3 @@ router.get('/', function(req, res, next) {
 });
 
 module.exports = router;
-
-function getAppRootUrl(req) {
-  return req.protocol + '://' + req.get('host') ;
-}

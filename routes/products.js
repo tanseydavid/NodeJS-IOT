@@ -1,32 +1,60 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../connection');
+const express = require('express');
+const router = express.Router();
+const db = require('../connection');
+const tools = require("../tools");
 
 router.get('/', function(req, res, next) {
 
-  let appRoot = getAppRootUrl( req )
+    // let appRoot = getAppRootUrl( req )
 
-  db.query( 'SELECT * FROM products ORDER BY productLine, productCode' )
-      .then( rows => {
+    db.query( 'SELECT * FROM products ORDER BY productLine, productCode ')
+        .then( rows => {
 
-        rows.forEach( (row) => {
-          row.href = appRoot + "/product/" + row.productCode;
+            rows.forEach( (row) => {
+                // row.href = appRoot + "/product/" + row.productCode;
+                row.href = tools.hrefForProductCode(req, row.productCode);
+            });
+
+            res.render('products', { title: 'Products', rows: rows });
+
+        }, err => {
+            return db.close().then( () => {
+                res.write("<h3>An error occurred: " + err + "</h3>");
+                res.end();
+                throw err;
+            })
         });
 
-        res.render('products', { title: 'Products', rows: rows });
+});
 
-      }, err => {
-        return db.close().then( () => {
-          res.write("<h3>An error occurred: " + err + "</h3>");
-          res.end();
-          throw err;
-        })
-      });
+router.get('/:productline', function(req, res, next) {
+
+    var productLine = req.params.productline;
+    // let appRoot = getAppRootUrl( req )
+
+    db.query( 'SELECT * FROM products WHERE productline = ? ORDER BY productLine, productCode ', productLine )
+        .then( rows => {
+
+            rows.forEach( (row) => {
+                // row.href = appRoot + "/product/" + row.productCode;
+                row.href = tools.hrefForProductCode(req, row.productCode);
+            });
+
+            res.render('products', { title: productLine, rows: rows });
+
+        }, err => {
+            return db.close().then( () => {
+                res.write("<h3>An error occurred: " + err + "</h3>");
+                res.end();
+                throw err;
+            })
+        });
 
 });
 
 module.exports = router;
 
-function getAppRootUrl(req) {
-  return req.protocol + '://' + req.get('host') ;
-}
+// function getAppRootUrl(req) {
+//     return req.protocol + '://' + req.get('host') ;
+// }
+//

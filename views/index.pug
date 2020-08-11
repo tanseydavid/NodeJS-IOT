@@ -8,22 +8,36 @@ block content
     div.column
       h2 HTML
       h3
-        ul
-          li
-            a(href='/productlines') Product Lines
-          li
-            a(href='/products') Products
-          li
-            a(href='/customers') Customers
-          li
-            a(href='/orders') Orders
-          li
-            a(href='/offices') Offices
-          li
-            a(href='/employees') Employees
+        a(href='/productlines') Product Lines
+      h3
+        a(href='/products') Products
+      h3
+        a(href='/customers') Customers
+      h3
+        a(href='/orders') Orders
+        h4
+          ul
+            li
+              a(href='/orders/In Process') In Process
+              | &nbsp; / &nbsp;
+              a(href='/orders/On Hold') On Hold
+            li
+              a(href='/orders/Disputed') Disputed
+              | &nbsp; / &nbsp;
+              a(href='/orders/Resolved') Resolved
+            li
+              a(href='/orders/Cancelled') Cancelled
+              | &nbsp; / &nbsp;
+              a(href='/orders/Shipped') Shipped
+      h3
+        a(href='/payments') Payments
+      h3
+        a(href='/offices') Offices
+      h3
+        a(href='/employees') Employees
     div.column
       h2 API
-      h3
+      h4
         ul
           li
             a(href='/api/productlines') Product Lines
@@ -33,6 +47,8 @@ block content
             a(href='/api/customers') Customers
           li
             a(href='/api/orders') Orders
+          li
+            a(href='/api/payments') Payments
           li
             a(href='/api/offices') Offices
           li

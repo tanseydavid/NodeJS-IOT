@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  h1= title
+  - var dateFormat = { year: "numeric", month: "2-digit", day: "2-digit" };
+  h3.
+    #{ "Customer #" + rows[0].customerNumber }
+  div
+    div= rows[0].addressLine1
+    div= rows[0].addressLine2
+    div= rows[0].city + ", " + rows[0].state + "  " + rows[0].postalCode
+    div= rows[0].country
+  br/
+  div
+    table
+      thead
+        th Contact
+        th(align='center') Phone
+        th(align='center') Sales Rep
+        th(align='center') Office
+      tbody
+        each row, i in rows
+          tr
+            td
+              span #{ row.contactFirstName + " " + row.contactLastName}
+            td
+              span #{row.phone}
+            td
+              span #{row.salesRepName + " (" + row.salesRepEmployeeNumber + ")"}
+            td
+              span #{row.officeCity}
+    br/
+    hr
+    h3 Orders
+    hr
+    div
+      table
+        thead
+          th(align='left') Order #
+          th Order Date
+          th Status
+        tbody
+          each order, i in rows[0].customerOrders
+            tr
+              td(align='left')
+                a(href=order.href) #{order.orderNumber}
+              td.
+                #{order.orderDate.toLocaleDateString("en-US", dateFormat)}
+              td.
+                #{order.status}

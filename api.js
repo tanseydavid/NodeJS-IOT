@@ -1,10 +1,12 @@
 module.exports = {
     ping,
     config,
-    customers,
     products,
     productlines,
+    customers,
     orders,
+    order,
+    payments,
     offices,
     employees
 }
@@ -17,11 +19,16 @@ const db = new Database({
     password: 'just4MySQL1,',
     database: 'classicmodels'
 });
-const dateFormat = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-};
+// const dateFormat = {
+//     year: "numeric",
+//     month: "2-digit",
+//     day: "2-digit",
+// };
+// const currencyFormat = new Intl.NumberFormat('en-INR', {
+//     style: 'currency',
+//     currency: 'USD',
+//     minimumFractionDigits: 2,
+// });
 // TESTING
 
 function ping(req, res) {
@@ -116,6 +123,7 @@ function orders(req, res) {
 
             rows.forEach( (row) => {
                 row.href = appRoot + "/order/" + row.orderNumber;
+                row.hrefapi = appRoot + "/api/order/" + row.orderNumber;
                 res.write(JSON.stringify(row, undefined, 4));
             });
 
@@ -125,6 +133,65 @@ function orders(req, res) {
             return db.close().then( () => {
                 res.write("<h3>An error occurred: " + err + "</h3>");
                 res.end();
+                throw err;
+            })
+        });
+}
+
+function order(req, res) {
+
+    var orderNumber = req.params.orderNumber;
+    let appRoot = getAppRootUrl( req )
+    let sqlOrder = 'SELECT * FROM orders WHERE orderNumber = ? ';
+    let sqlOrderDetails = 'SELECT od.*, p.productName FROM orderdetails od JOIN products p ON p.productCode = od.productCode WHERE orderNumber = ? ORDER BY orderLineNumber';
+
+    db.query( sqlOrder, orderNumber ).then( rows => {
+
+        rows.forEach( (row) => {
+
+            db.query( sqlOrderDetails, orderNumber ).then( details => {
+
+                row.href = appRoot + "/order/" + row.orderNumber;
+                row.orderDetails = details;
+                res.write(JSON.stringify(row, undefined, 4));
+
+                res.end();
+
+            }, err => {
+                return db.close().then( () => {
+                    res.write("An error occurred: " + err );
+                    res.end();
+                    throw err;
+                })
+            });
+
+        });
+
+    }, err => {
+        return db.close().then( () => {
+            res.write("An error occurred: " + err );
+            res.end();
+            throw err;
+        })
+    });
+}
+
+function payments(req, res) {
+
+    let appRoot = getAppRootUrl( req )
+    db.query( 'SELECT * FROM payments' )
+        .then( rows => {
+
+            rows.forEach( (row) => {
+                row.href = appRoot + "/api/payment/" + row.customerNumber + "/" + row.checkNumber;
+                res.write(JSON.stringify(row, undefined, 4));
+            });
+
+            res.end();
+
+        }, err => {
+            return db.close().then( () => {
+                res.send("<h3>An error occurred: " + err + "</h3>");
                 throw err;
             })
         });

@@ -5,16 +5,19 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// var usersRouter = require('./routes/users');
 var productLinesRouter = require('./routes/productlines');
-var officesRouter = require('./routes/offices');
-var customersRouter = require('./routes/customers');
 var productsRouter = require('./routes/products');
-var employeesRouter = require('./routes/employees');
+var productRouter = require('./routes/product');
+var customersRouter = require('./routes/customers');
+var customerRouter = require('./routes/customer');
 var ordersRouter = require('./routes/orders');
+var orderRouter = require('./routes/order');
+var paymentsRouter = require('./routes/payments');
+var officesRouter = require('./routes/offices');
+var employeesRouter = require('./routes/employees');
 
 const api = require('./api')
-
 var server = express();
 
 const dateFormat = {
@@ -22,6 +25,11 @@ const dateFormat = {
   month: "2-digit",
   day: "2-digit",
 };
+const currencyFormat = new Intl.NumberFormat('en-INR', {
+  style: 'currency',
+  currency: 'INR',
+  minimumFractionDigits: 2,
+});
 
 // view engine setup
 server.set('views', path.join(__dirname, 'views'));
@@ -35,21 +43,26 @@ server.use(express.static(path.join(__dirname, 'public')));
 
 // HTML routes
 server.use('/', indexRouter);
-server.use('/users', usersRouter);
 server.use('/productlines', productLinesRouter);
-server.use('/offices', officesRouter);
-server.use('/customers', customersRouter);
 server.use('/products', productsRouter);
-server.use('/employees', employeesRouter);
+server.use('/product', productRouter);
+server.use('/customers', customersRouter);
+server.use('/customer', customerRouter);
 server.use('/orders', ordersRouter);
+server.use('/order', orderRouter);
+server.use('/payments', paymentsRouter);
+server.use('/offices', officesRouter);
+server.use('/employees', employeesRouter);
 
 // API routes
 server.get("/api/ping", api.ping );
 server.get("/api/config", api.config );
-server.get("/api/customers", api.customers );
 server.get("/api/products", api.products );
 server.get("/api/productlines", api.productlines );
+server.get("/api/customers", api.customers );
 server.get("/api/orders", api.orders);
+server.get("/api/order/:orderNumber", api.order);
+server.get("/api/payments", api.payments);
 server.get("/api/offices", api.offices );
 server.get("/api/employees", api.employees );
 

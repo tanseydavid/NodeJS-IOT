@@ -3,12 +3,15 @@ extends layout
 block content
   h1= title
 
-  p
-    for row in rows
-      h4
-        span #{row.customerName + " (" }
-        a(href=row.href)
-          span.
-            #{row.customerNumber}
-        span )
-
+  div
+    table
+      thead
+        th Customer #
+        th(align='center') Customer Name
+      tbody
+        each row, i in rows
+          tr
+            td(align='center')
+              a(href=row.href) #{row.customerNumber}
+            td
+              span #{row.customerName}

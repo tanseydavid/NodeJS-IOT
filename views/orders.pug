@@ -2,13 +2,27 @@ extends layout
 
 block content
   h1= title
+  - var dateFormat = { year: "numeric", month: "2-digit", day: "2-digit" };
 
-  p
-    for row in rows
-      p
-        span #{row.customerName + " (" }
-        a(href=row.href)
-          span.
-            #{row.orderNumber}
-        span )
+  div
+    table
+      thead
+        th Order #
+        th Order Date
+        th Status
+        th(align='center') Customer
+      tbody
+        each row, i in rows
+          tr
+            td(align='left')
+              a(href=row.href) #{row.orderNumber}
+            td.
+              #{row.orderDate.toLocaleDateString("en-US", dateFormat)}
+            td.
+              #{row.status}
+            td.
+              #{row.customerName}
+            td
+              a(href=row.hrefCustomer) #{ "(" + row.customerNumber +")" }
+              row.customerName
 

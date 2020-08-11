@@ -7,19 +7,16 @@ router.get('/', function(req, res, next) {
 
   let appRoot = getAppRootUrl( req )
 
-  db.query( 'SELECT * FROM productlines' )
+  db.query( 'SELECT p.*, c.customerName FROM payments p JOIN customers c ON c.customerNumber = p.customerNumber ORDER BY paymentdate DESC' )
       .then( rows => {
 
         rows.forEach( (row) => {
-          row.href = appRoot + "/products/" + row.productLine;
+          row.href = appRoot + "/payment/" + row.checkNumber + "/" + row.customerNumber ;
         });
 
-        res.render('productlines', { title: 'Product Lines', rows: rows });
-        // res.end();
+        res.render('payments', { title: 'Payments', rows: rows });
 
       }, err => {
-
-        console.log( "An error occurred: " + err)
         return db.close().then( () => {
           res.write("<h3>An error occurred: " + err + "</h3>");
           res.end();
@@ -27,8 +24,8 @@ router.get('/', function(req, res, next) {
         })
       });
 
-  // res.render('productlines', { title: 'Product Lines' });
 });
+
 
 module.exports = router;
 

@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h2= rows[0].productLine
+  h1= title
+  p
+    for row in rows
+      h4 #{"Scale: " + row.productScale }
+      h4 #{"Vendor: " + row.productVendor}
+      p
+        span #{row.productDescription + " (" }
+        a(href=row.href)
+          span.
+            #{row.productCode}
+        span )
+

@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  h1= title
+  - var dateFormat = { year: "numeric", month: "2-digit", day: "2-digit" };
+  h2.
+    #{rows[0].customerName + " (" + rows[0].customerNumber + ")"}
+  hr
+  div
+    table
+      thead
+        th Order Date
+        th Status
+      tbody
+        each row, i in rows
+          tr
+            td.
+              #{row.orderDate.toLocaleDateString("en-US", dateFormat)}
+            td.
+              #{row.status}
+    hr
+    br
+    h3 Items
+    hr
+    div
+      table
+        thead
+          th Line #
+          th Product Code
+          th(align='center') Product Name
+          th Quantity
+        tbody
+          each detail, i in rows[0].orderDetails
+            tr
+              td.
+                #{detail.orderLineNumber}
+              td.
+                #{detail.productCode}
+              td.
+                #{detail.productName}
+              td.
+                #{detail.quantityOrdered}
+
+
