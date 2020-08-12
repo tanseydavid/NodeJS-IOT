@@ -1,0 +1,41 @@
+extends layout
+
+block content
+  h1= title
+
+  p
+    for row in rows
+      h2=row.phone
+      p.
+        #{row.addressLine1} #{row.addressLine2}
+      p.
+        #{row.city}, #{row.state}
+        &nbsp;&nbsp; #{row.postalCode}
+      p.
+        #{row.country}
+
+  br
+  hr
+  h3 Employees
+  hr
+  div
+    table
+      thead
+        th(align='left') Employee #
+        th Name
+        th Title
+        th Email
+        th Extension
+      tbody
+        each employee, i in rows[0].employees
+          tr
+            td(align='left')
+              a(href=employee.href) #{employee.employeeNumber}
+            td.
+              #{employee.lastName + ", " + employee.firstName }
+            td.
+              #{employee.jobTitle}
+            td.
+              #{employee.email}
+            td.
+              #{employee.extension}

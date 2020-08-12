@@ -3,21 +3,16 @@ extends layout
 block content
   h1= title
 
-  p
-    for row in rows
-      h2
-        - var href = "/office/" + row.officeCode;
-        a(href=href)
-          p=row.city
-      h3=row.phone
-      p.
-        #{row.addressLine1} #{row.addressLine2}
-      p.
-        #{row.city}, #{row.state}
-        &nbsp;&nbsp; #{row.postalCode}
-      p.
-        #{row.country}
-      br
-
-
-
+  div
+    table
+      thead
+        th(align='left') City
+        th(align='center') Phone
+      tbody
+        each row, i in rows
+          tr
+            td(align='left')
+              h3
+                a(href=row.href) #{row.city}
+            td
+              span #{row.phone}

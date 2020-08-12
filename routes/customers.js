@@ -5,8 +5,7 @@ const tools = require('../tools');
 
 router.get('/', function(req, res, next) {
 
-  db.query( 'SELECT * FROM customers ORDER BY customerName' )
-      .then( rows => {
+  db.query( 'SELECT * FROM customers ORDER BY customerName' ).then( rows => {
 
         rows.forEach( (row) => {
             row.href = tools.hrefForCustomerNumber( req, row.customerNumber );

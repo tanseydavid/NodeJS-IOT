@@ -239,8 +239,8 @@ function employees(req, res) {
 function getServerNameVersion() {
     let d = getDividerString();
     return d + "Fuel@HOME.Server\n" +
-        "Version: 1.0.0.1\t\t" +
-        "Built: 2020-08-01 14:13\n" + d;
+        "Version: 1.0.0.5\t\t" +
+        "Built: 2020-08-11 15:08\n" + d;
 }
 
 function getDividerString() {

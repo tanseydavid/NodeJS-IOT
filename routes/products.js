@@ -5,13 +5,9 @@ const tools = require("../tools");
 
 router.get('/', function(req, res, next) {
 
-    // let appRoot = getAppRootUrl( req )
-
-    db.query( 'SELECT * FROM products ORDER BY productLine, productCode ')
-        .then( rows => {
+    db.query( 'SELECT * FROM products ORDER BY productLine, productCode ').then( rows => {
 
             rows.forEach( (row) => {
-                // row.href = appRoot + "/product/" + row.productCode;
                 row.href = tools.hrefForProductCode(req, row.productCode);
             });
 
@@ -19,24 +15,21 @@ router.get('/', function(req, res, next) {
 
         }, err => {
             return db.close().then( () => {
-                res.write("<h3>An error occurred: " + err + "</h3>");
+                res.write("An error occurred: " + err );
                 res.end();
                 throw err;
             })
         });
-
 });
 
 router.get('/:productline', function(req, res, next) {
 
     var productLine = req.params.productline;
-    // let appRoot = getAppRootUrl( req )
 
     db.query( 'SELECT * FROM products WHERE productline = ? ORDER BY productLine, productCode ', productLine )
         .then( rows => {
 
             rows.forEach( (row) => {
-                // row.href = appRoot + "/product/" + row.productCode;
                 row.href = tools.hrefForProductCode(req, row.productCode);
             });
 
@@ -53,8 +46,3 @@ router.get('/:productline', function(req, res, next) {
 });
 
 module.exports = router;
-
-// function getAppRootUrl(req) {
-//     return req.protocol + '://' + req.get('host') ;
-// }
-//

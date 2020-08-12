@@ -1,16 +1,14 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../connection');
+const express = require('express');
+const router = express.Router();
+const db = require('../connection');
+const tools = require('../tools');
 
 router.get('/', function(req, res, next) {
 
-  let appRoot = getAppRootUrl( req )
-
-  db.query( 'SELECT * FROM offices' )
-      .then( rows => {
+  db.query( 'SELECT * FROM offices' ).then( rows => {
 
         rows.forEach( (row) => {
-          row.href = appRoot + "/office/" + row.officeCode;
+          row.href = tools.hrefForOfficeCode( req, row.officeCode );
         });
 
         res.render('offices', { title: 'Offices', rows: rows });

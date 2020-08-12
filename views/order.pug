@@ -3,8 +3,10 @@ extends layout
 block content
   h1= title
   - var dateFormat = { year: "numeric", month: "2-digit", day: "2-digit" };
-  h2.
-    #{rows[0].customerName + " (" + rows[0].customerNumber + ")"}
+  h2
+    | #{rows[0].customerName } (
+    a(href=rows[0].hrefCustomer) #{rows[0].customerNumber }
+    | )
   hr
   div
     table
@@ -28,17 +30,24 @@ block content
           th Line #
           th Product Code
           th(align='center') Product Name
-          th Quantity
+          th(align='right') Price Each
+          th(align='right') Quantity
+          th(align='right') Extended Price
         tbody
           each detail, i in rows[0].orderDetails
             tr
-              td.
-                #{detail.orderLineNumber}
-              td.
-                #{detail.productCode}
-              td.
-                #{detail.productName}
-              td.
-                #{detail.quantityOrdered}
-
-
+              td= detail.orderLineNumber
+              td
+                a(href=detail.hrefProduct)  #{detail.productCode}
+              td= detail.productName
+              td(align='right')= detail.priceEachFormatted
+              td(align='right')= detail.quantityOrdered
+              td(align='right')= detail.priceExtendedFormatted
+          tr
+            td(colspan=6)
+              hr
+          tr
+            td(colspan=4)
+            td
+              b Order Total:
+            td(align='right')= rows[0].orderTotalFormatted

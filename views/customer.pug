@@ -26,10 +26,12 @@ block content
             td
               span #{row.phone}
             td
-              span #{row.salesRepName + " (" + row.salesRepEmployeeNumber + ")"}
+              | #{row.salesRepName} (
+              a(href=row.hrefSalesRep) #{row.salesRepEmployeeNumber}
+              | )
             td
-              span #{row.officeCity}
-    br/
+              a(href=row.hrefOffice) #{row.officeCity}
+    br
     hr
     h3 Orders
     hr
@@ -48,3 +50,21 @@ block content
                 #{order.orderDate.toLocaleDateString("en-US", dateFormat)}
               td.
                 #{order.status}
+    br
+    hr
+    h3 Payments
+    hr
+    div
+      table
+        thead
+          th(align='left') Check #
+          th Payment Date
+          th Amount
+        tbody
+          each payment, i in rows[0].customerPayments
+            tr
+              td(align='left')
+                a(href=payment.href) #{payment.checkNumber}
+              td.
+                #{payment.paymentDate.toLocaleDateString("en-US", dateFormat)}
+              td(align='right') #{payment.amountFormatted}

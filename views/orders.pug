@@ -20,9 +20,7 @@ block content
               #{row.orderDate.toLocaleDateString("en-US", dateFormat)}
             td.
               #{row.status}
-            td.
-              #{row.customerName}
             td
-              a(href=row.hrefCustomer) #{ "(" + row.customerNumber +")" }
-              row.customerName
-
+              | #{row.customerName }  (
+              a(href=row.hrefCustomer) #{row.customerNumber}
+              | )

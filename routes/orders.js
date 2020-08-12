@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 
       rows.forEach( (row) => {
         row.href = tools.hrefForOrderNumber( req, row.orderNumber );
-        // row.hrefapi = appRoot + "/api/order/" + row.orderNumber;
+        row.hrefCustomer = tools.hrefForCustomerNumber( req, row.customerNumber );
       });
 
       res.render('orders', { title: 'Orders', rows: rows });
@@ -48,7 +48,6 @@ router.get('/:status', function(req, res, next) {
                 row.href = tools.hrefForOrderNumber( req, row.orderNumber );
                 row.hrefCustomer = tools.hrefForCustomerNumber( req, row.customerNumber );
             });
-
             res.render('orders', { title: 'Orders - ' + orderStatus, rows: rows });
 
         }, err => {

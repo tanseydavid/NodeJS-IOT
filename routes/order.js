@@ -1,28 +1,37 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../connection');
+const express = require('express');
+const router = express.Router();
+const db = require('../connection');
+const tools = require('../tools');
 
 router.get('/:orderNumber', function(req, res, next) {
 
-    debugger;
     let orderNumber = req.params.orderNumber;
-    let appRoot = getAppRootUrl( req )
+    // let appRoot = getAppRootUrl( req )
     let sqlOrder = 'SELECT o.*, c.customerName FROM orders o JOIN customers c ON c.customerNumber = o.customerNumber WHERE orderNumber = ? ';
-    let sqlOrderDetails = 'SELECT od.*, p.productName FROM orderdetails od JOIN products p ON p.productCode = od.productCode WHERE orderNumber = ? ORDER BY orderLineNumber';
+    let sqlOrderDetails = 'SELECT od.*, od.priceEach * od.quantityOrdered AS priceExtended, p.productName FROM orderdetails od JOIN products p ON p.productCode = od.productCode WHERE orderNumber = ? ORDER BY orderLineNumber';
 
-    db.query( sqlOrder, orderNumber )
-        .then( rows => {
+    db.query( sqlOrder, orderNumber ).then( rows => {
 
             rows.forEach( (row) => {
 
+                row.orderTotal = 0;
+
                 db.query( sqlOrderDetails, orderNumber ).then( details => {
 
-                    row.href = appRoot + "/order/" + row.orderNumber;
-                    row.orderDetails = details;
-                    res.render('order', { title:  "Order # " +  rows[0].orderNumber, rows: rows });
+                    row.hrefCustomer = tools.hrefForCustomerNumber( req, row.customerNumber );
+                    row.hrefSalesRep = tools.hrefForEmployeeNumber( req, row.salesRepEmployeeNumber );
 
-                    // res.write(JSON.stringify(row, undefined, 4));
-                    // res.end();
+                    details.forEach( (detail) => {
+                        detail.hrefProduct = tools.hrefForProductCode( req, detail.productCode );
+                        detail.priceEachFormatted = tools.formatCurrency( detail.priceEach );
+                        detail.priceExtendedFormatted = tools.formatCurrency( detail.priceExtended );
+                        row.orderTotal += detail.priceExtended;
+                    });
+
+                    row.orderDetails = details;
+                    row.orderTotalFormatted = tools.formatCurrency( row.orderTotal )
+
+                    res.render('order', { title:  "Order # " +  rows[0].orderNumber, rows: rows });
 
                 }, err => {
                     return db.close().then( () => {
@@ -31,9 +40,6 @@ router.get('/:orderNumber', function(req, res, next) {
                         throw err;
                     })
                 });
-
-
-                // row.href = appRoot + "/order/" + row.orderNumber;
             });
 
         }, err => {
@@ -48,6 +54,6 @@ router.get('/:orderNumber', function(req, res, next) {
 
 module.exports = router;
 
-function getAppRootUrl(req) {
-    return req.protocol + '://' + req.get('host') ;
-}
+// function getAppRootUrl(req) {
+//     return req.protocol + '://' + req.get('host') ;
+// }

@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
 var productLinesRouter = require('./routes/productlines');
 var productsRouter = require('./routes/products');
 var productRouter = require('./routes/product');
@@ -15,21 +14,12 @@ var ordersRouter = require('./routes/orders');
 var orderRouter = require('./routes/order');
 var paymentsRouter = require('./routes/payments');
 var officesRouter = require('./routes/offices');
+var officeRouter = require('./routes/office');
 var employeesRouter = require('./routes/employees');
+var employeeRouter = require('./routes/employee');
 
 const api = require('./api')
 var server = express();
-
-const dateFormat = {
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-};
-const currencyFormat = new Intl.NumberFormat('en-INR', {
-  style: 'currency',
-  currency: 'INR',
-  minimumFractionDigits: 2,
-});
 
 // view engine setup
 server.set('views', path.join(__dirname, 'views'));
@@ -52,7 +42,9 @@ server.use('/orders', ordersRouter);
 server.use('/order', orderRouter);
 server.use('/payments', paymentsRouter);
 server.use('/offices', officesRouter);
+server.use('/office', officeRouter);
 server.use('/employees', employeesRouter);
+server.use('/employee', employeeRouter);
 
 // API routes
 server.get("/api/ping", api.ping );
@@ -83,7 +75,3 @@ server.use(function(err, req, res, next) {
 });
 
 module.exports = server;
-
-function getAppRootUrl(req) {
-  return req.protocol + '://' + req.get('host') ;
-}

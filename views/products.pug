@@ -3,16 +3,20 @@ extends layout
 block content
   h1= title
 
-  - var currentProductLine = ""
-  p
-    for row in rows
-      if (currentProductLine != row.productLine)
-        h2=row.productLine
-        - currentProductLine = row.productLine
-      p
-        span #{row.productName + " (" }
-        a(href=row.href)
-          span.
-            #{row.productCode}
-        span )
-
+  div
+    table
+      thead
+        th Product Code
+        th(align='center') Name
+        th(align='center') Product Line
+        th(align='center') Scale
+        th(align='center') Vendor
+      tbody
+        each row, i in rows
+          tr
+            td(align='left')
+              a(href=row.href) #{row.productCode}
+            td(align='left') #{row.productName}
+            td(align='center') #{row.productLine}
+            td(align='center') #{row.productScale}
+            td(align='center') #{row.productVendor}
