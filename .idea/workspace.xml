@@ -2,30 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25c76b53-1a5f-45c7-9f15-fb2d5cbc9774" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/routes/employee.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routes/office.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/employee.pug" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/office.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/customer.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/customer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/customers.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/customers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/employees.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/employees.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/offices.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/offices.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/order.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/orders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/payments.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/payments.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/products.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/products.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tools.js" beforeDir="false" afterPath="$PROJECT_DIR$/tools.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/customer.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/customer.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/employees.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/employees.pug" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/index.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/offices.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/offices.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/order.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/order.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/orders.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/orders.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/payments.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/payments.pug" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/products.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/products.pug" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/layout.pug" beforeDir="false" afterPath="$PROJECT_DIR$/views/layout.pug" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -123,6 +102,7 @@
       <workItem from="1597092460035" duration="19000" />
       <workItem from="1597092518913" duration="26285000" />
       <workItem from="1597157811067" duration="22608000" />
+      <workItem from="1597195142677" duration="1153000" />
     </task>
     <servers />
   </component>

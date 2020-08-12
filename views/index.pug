@@ -2,41 +2,43 @@ extends layout
 
 block content
   h1= title
+  h5 NodeJS Reference Application
   p v1.0.0.5
-  h4 NodeJS Reference Application
   div.row
     div.column
-      h2 HTML
-      h3
-        a(href='/productlines') Product Lines
-      h3
-        a(href='/products') Products
-      h3
-        a(href='/customers') Customers
-      h3
-        a(href='/orders') Orders
-        h4
-          ul
-            li
-              a(href='/orders/In Process') In Process
-              | &nbsp; / &nbsp;
-              a(href='/orders/On Hold') On Hold
-            li
-              a(href='/orders/Disputed') Disputed
-              | &nbsp; / &nbsp;
-              a(href='/orders/Resolved') Resolved
-            li
-              a(href='/orders/Cancelled') Cancelled
-              | &nbsp; / &nbsp;
-              a(href='/orders/Shipped') Shipped
-      h3
-        a(href='/payments') Payments
-      h3
-        a(href='/offices') Offices
-      h3
-        a(href='/employees') Employees
+      h3 HTML
+      h4
+        ul
+          li
+            a(href='/productlines') Product Lines
+          li
+            a(href='/products') Products
+          li
+            a(href='/customers') Customers
+          li
+            a(href='/orders') Orders
+            h5
+              ul
+                li
+                  a(href='/orders/In Process') In Process
+                  | &nbsp; / &nbsp;
+                  a(href='/orders/On Hold') On Hold
+                li
+                  a(href='/orders/Disputed') Disputed
+                  | &nbsp; / &nbsp;
+                  a(href='/orders/Resolved') Resolved
+                li
+                  a(href='/orders/Cancelled') Cancelled
+                  | &nbsp; / &nbsp;
+                  a(href='/orders/Shipped') Shipped
+          li
+            a(href='/payments') Payments
+          li
+            a(href='/offices') Offices
+          li
+            a(href='/employees') Employees
     div.column
-      h2 API
+      h3 API
       h4
         ul
           li
