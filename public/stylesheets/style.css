@@ -1,5 +1,4 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -22,4 +21,8 @@ a {
 td
 {
   padding:0 15px;
+}
+
+.mdl-layout__content {
+  padding: 10px;
 }

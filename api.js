@@ -1,3 +1,6 @@
+const Employees = require('./models/EmployeesModel');
+const tools = require('./tools');
+
 module.exports = {
     ping,
     config,
@@ -19,17 +22,6 @@ const db = new Database({
     password: 'just4MySQL1,',
     database: 'classicmodels'
 });
-// const dateFormat = {
-//     year: "numeric",
-//     month: "2-digit",
-//     day: "2-digit",
-// };
-// const currencyFormat = new Intl.NumberFormat('en-INR', {
-//     style: 'currency',
-//     currency: 'USD',
-//     minimumFractionDigits: 2,
-// });
-// TESTING
 
 function ping(req, res) {
     //set the appropriate HTTP header
@@ -219,22 +211,31 @@ function offices(req, res) {
         });
 }
 
-function employees(req, res) {
-    let appRoot = getAppRootUrl( req )
-    db.query( 'SELECT * FROM employees' )
-        .then( rows => {
-            rows.forEach( (row) => {
-                row.href = appRoot + "/employee/" + row.employeeNumber;
-                res.write(JSON.stringify(row, undefined, 4));
-            });
-            res.end();
-        }, err => {
-            return db.close().then( () => {
-                res.send("<h3>An error occurred: " + err + "</h3>");
-                throw err;
-            })
+
+async function employees(req, res) {
+
+    try {
+        let employees = await Employees.getAll();
+        employees.forEach( (employee) => {
+            employee.href = tools.hrefForEmployeeNumber( req, employee.employeeNumber );
+            employee.hrefOffice = tools.hrefForOfficeCode( req, employee.officeCode );
         });
+
+        res.json( employees );
+
+        // res.json(await Products.list({
+        //     offset: Number(offset),
+        //     limit: Number(limit),
+        //     tag
+        // }))
+
+    } catch(err) {
+        res.write("An error occurred: " + err );
+        res.end();
+        throw err;
+    }
 }
+
 
 function getServerNameVersion() {
     let d = getDividerString();

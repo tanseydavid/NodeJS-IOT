@@ -14,9 +14,7 @@ var ordersRouter = require('./routes/orders');
 var orderRouter = require('./routes/order');
 var paymentsRouter = require('./routes/payments');
 var officesRouter = require('./routes/offices');
-var officeRouter = require('./routes/office');
 var employeesRouter = require('./routes/employees');
-var employeeRouter = require('./routes/employee');
 
 const api = require('./api')
 var server = express();
@@ -42,9 +40,7 @@ server.use('/orders', ordersRouter);
 server.use('/order', orderRouter);
 server.use('/payments', paymentsRouter);
 server.use('/offices', officesRouter);
-server.use('/office', officeRouter);
 server.use('/employees', employeesRouter);
-server.use('/employee', employeeRouter);
 
 // API routes
 server.get("/api/ping", api.ping );

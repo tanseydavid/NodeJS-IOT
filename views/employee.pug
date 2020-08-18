@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1= title
-  h3= rows[0].jobTitle
+  h3= employee.jobTitle
 
 
   div
@@ -13,13 +13,12 @@ block content
         th(align='center') Title
         th(align='center') Office
       tbody
-        each row, i in rows
           tr
             td(align='center')
-              a(href=row.href) #{row.employeeNumber}
+              a(href=employee.href) #{employee.employeeNumber}
             td
-              span #{row.lastName + ", " + row.firstName}
+              span #{employee.lastName + ", " + employee.firstName}
             td(align='center')
-              span #{row.jobTitle}
+              span #{employee.jobTitle}
             td(align='center')
-              a(href=row.hrefOffice) #{row.officeCity}
+              a(href=employee.hrefOffice) #{employee.officeCity}

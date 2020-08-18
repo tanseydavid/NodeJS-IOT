@@ -1,30 +1,36 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../connection');
 const tools = require('../tools');
+const Offices = require('../models/OfficesModel');
 
-router.get('/', function(req, res, next) {
-
-  db.query( 'SELECT * FROM offices' ).then( rows => {
-
-        rows.forEach( (row) => {
-          row.href = tools.hrefForOfficeCode( req, row.officeCode );
+router.get('/', async function(req, res, next) {
+    try {
+        let offices = await Offices.getAll();
+        offices.forEach( (office) => {
+            office.href = tools.hrefForOfficeCode( req, office.officeCode );
         });
+        res.render('offices', { title: 'Offices', rows: offices });
+    } catch(err) {
+        res.write("An error occurred: " + err );
+        res.end();
+        throw err;
+    }
+});
 
-        res.render('offices', { title: 'Offices', rows: rows });
-
-      }, err => {
-        return db.close().then( () => {
-          res.write("<h3>An error occurred: " + err + "</h3>");
-          res.end();
-          throw err;
-        })
-      });
-
+router.get('/:officeCode',  async function(req, res, next) {
+    try {
+        let officeCode = req.params.officeCode;
+        let office = await Offices.getByOfficeCode( officeCode );
+        office.href = tools.hrefForOfficeCode( req, office.officeCode );
+        office.employees.forEach( (employee) => {
+            employee.href = tools.hrefForEmployeeNumber( req, employee.employeeNumber );
+        });
+        res.render('office', { title: office.city + ' - Office', office: office });
+    } catch(err) {
+        res.write("An error occurred: " + err );
+        res.end();
+        throw err;
+    }
 });
 
 module.exports = router;
-
-function getAppRootUrl(req) {
-  return req.protocol + '://' + req.get('host') ;
-}

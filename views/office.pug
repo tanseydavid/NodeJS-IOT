@@ -4,19 +4,18 @@ block content
   h1= title
 
   p
-    for row in rows
-      h2=row.phone
-      p.
-        #{row.addressLine1} #{row.addressLine2}
-      p.
-        #{row.city}, #{row.state}
-        &nbsp;&nbsp; #{row.postalCode}
-      p.
-        #{row.country}
+    h3=office.phone
+    p.
+      #{office.addressLine1} #{office.addressLine2}
+    p.
+      #{office.city}, #{office.state}
+      &nbsp;&nbsp; #{office.postalCode}
+    p.
+      #{office.country}
 
   br
   hr
-  h3 Employees
+  h4 Employees
   hr
   div
     table
@@ -27,7 +26,7 @@ block content
         th Email
         th Extension
       tbody
-        each employee, i in rows[0].employees
+        each employee, i in office.employees
           tr
             td(align='left')
               a(href=employee.href) #{employee.employeeNumber}

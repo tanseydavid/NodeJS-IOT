@@ -12,16 +12,16 @@ module.exports =  {
         return getAppRootUrl(req) + "/order/" + orderNumber;
     },
     hrefForEmployeeNumber( req, employeeNumber ) {
-        return getAppRootUrl(req) + "/employee/" + employeeNumber;
+        return getAppRootUrl(req) + "/employees/" + employeeNumber;
     },
     hrefForPayment( req, checkNumber, customerNumber ) {
         return getAppRootUrl(req) + '/payments/' + checkNumber + "/" + customerNumber;
     },
     hrefForOfficeCode( req, officeCode ) {
-        return getAppRootUrl(req) + "/office/" + officeCode;
+        return getAppRootUrl(req) + "/offices/" + officeCode;
     },
     formatCurrency( amount ) {
-      let formatter = new Intl.NumberFormat('en-INR', {
+      let formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
         minimumFractionDigits: 2,
