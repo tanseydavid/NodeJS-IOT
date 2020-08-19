@@ -3,13 +3,13 @@ extends layout
 block content
   h1= title
   - var dateFormat = { year: "numeric", month: "2-digit", day: "2-digit" };
-  h3.
-    #{ "Customer #" + rows[0].customerNumber }
+  h4.
+    #{ "Customer #" + customer.customerNumber }
   div
-    div= rows[0].addressLine1
-    div= rows[0].addressLine2
-    div= rows[0].city + ", " + rows[0].state + "  " + rows[0].postalCode
-    div= rows[0].country
+    div= customer.addressLine1
+    div= customer.addressLine2
+    div= customer.city + ", " + customer.state + "  " + customer.postalCode
+    div= customer.country
   br/
   div
     table
@@ -19,21 +19,20 @@ block content
         th(align='center') Sales Rep
         th(align='center') Office
       tbody
-        each row, i in rows
           tr
             td
-              span #{ row.contactFirstName + " " + row.contactLastName}
+              span #{ customer.contactFirstName + " " + customer.contactLastName}
             td
-              span #{row.phone}
+              span #{customer.phone}
             td
-              | #{row.salesRepName} (
-              a(href=row.hrefSalesRep) #{row.salesRepEmployeeNumber}
+              | #{customer.salesRepName} (
+              a(href=customer.hrefSalesRep) #{customer.salesRepEmployeeNumber}
               | )
             td
-              a(href=row.hrefOffice) #{row.officeCity}
+              a(href=customer.hrefOffice) #{customer.officeCity}
     br
     hr
-    h3 Orders
+    h4 Orders
     hr
     div
       table
@@ -42,7 +41,7 @@ block content
           th Order Date
           th Status
         tbody
-          each order, i in rows[0].customerOrders
+          each order, i in customer.customerOrders
             tr
               td(align='left')
                 a(href=order.href) #{order.orderNumber}
@@ -52,7 +51,7 @@ block content
                 #{order.status}
     br
     hr
-    h3 Payments
+    h4 Payments
     hr
     div
       table
@@ -61,7 +60,7 @@ block content
           th Payment Date
           th Amount
         tbody
-          each payment, i in rows[0].customerPayments
+          each payment, i in customer.customerPayments
             tr
               td(align='left')
                 a(href=payment.href) #{payment.checkNumber}

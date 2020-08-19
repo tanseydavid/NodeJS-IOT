@@ -7,11 +7,8 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var productLinesRouter = require('./routes/productlines');
 var productsRouter = require('./routes/products');
-var productRouter = require('./routes/product');
 var customersRouter = require('./routes/customers');
-var customerRouter = require('./routes/customer');
 var ordersRouter = require('./routes/orders');
-var orderRouter = require('./routes/order');
 var paymentsRouter = require('./routes/payments');
 var officesRouter = require('./routes/offices');
 var employeesRouter = require('./routes/employees');
@@ -31,13 +28,12 @@ server.use(express.static(path.join(__dirname, 'public')));
 
 // HTML routes
 server.use('/', indexRouter);
+server.use('/about', indexRouter);
+server.use('/contact', indexRouter);
 server.use('/productlines', productLinesRouter);
 server.use('/products', productsRouter);
-server.use('/product', productRouter);
 server.use('/customers', customersRouter);
-server.use('/customer', customerRouter);
 server.use('/orders', ordersRouter);
-server.use('/order', orderRouter);
 server.use('/payments', paymentsRouter);
 server.use('/offices', officesRouter);
 server.use('/employees', employeesRouter);

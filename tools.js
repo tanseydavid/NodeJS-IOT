@@ -3,13 +3,13 @@ module.exports =  {
         return getAppRootUrl( req ) ;
     },
     hrefForCustomerNumber(req, customerNumber) {
-        return getAppRootUrl(req) + "/customer/" +  customerNumber ;
+        return getAppRootUrl(req) + "/customers/" +  customerNumber ;
     },
     hrefForProductCode(req, productCode) {
-        return getAppRootUrl(req) + "/product/" + productCode;
+        return getAppRootUrl(req) + "/products/" + productCode;
     },
     hrefForOrderNumber(req, orderNumber) {
-        return getAppRootUrl(req) + "/order/" + orderNumber;
+        return getAppRootUrl(req) + "/orders/" + orderNumber;
     },
     hrefForEmployeeNumber( req, employeeNumber ) {
         return getAppRootUrl(req) + "/employees/" + employeeNumber;

@@ -13,17 +13,17 @@ block content
             th
             th(align='center') Customer
           tbody
-              each row, i in rows
+              each payment, i in payments
                   tr
                     td(align='left')
-                      a(href=row.href) #{row.checkNumber}
+                      a(href=payment.href) #{payment.checkNumber}
                     td.
-                      #{row.paymentDate.toLocaleDateString("en-US", dateFormat)}
+                      #{payment.paymentDate.toLocaleDateString("en-US", dateFormat)}
                     td(align='right').
-                      #{ tools.formatCurrency( row.amount ) }
+                      #{ tools.formatCurrency( payment.amount ) }
                     td
                       |
                     td
-                      | #{row.customerName }  (
-                      a(href=row.hrefCustomer) #{row.customerNumber}
+                      | #{payment.customerName }  (
+                      a(href=payment.hrefCustomer) #{payment.customerNumber}
                       | )

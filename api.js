@@ -1,5 +1,8 @@
-const Employees = require('./models/EmployeesModel');
 const tools = require('./tools');
+
+const Employees = require('./models/EmployeesModel');
+const Offices = require('./models/OfficesModel');
+const Orders = require('./models/OrdersModel');
 
 module.exports = {
     ping,
@@ -106,29 +109,44 @@ function productlines(req, res) {
         });
 }
 
-function orders(req, res) {
 
-    let appRoot = getAppRootUrl( req )
 
-    db.query( 'SELECT * FROM orders')
-        .then( rows => {
-
-            rows.forEach( (row) => {
-                row.href = appRoot + "/order/" + row.orderNumber;
-                row.hrefapi = appRoot + "/api/order/" + row.orderNumber;
-                res.write(JSON.stringify(row, undefined, 4));
-            });
-
-            res.end();
-
-        }, err => {
-            return db.close().then( () => {
-                res.write("<h3>An error occurred: " + err + "</h3>");
-                res.end();
-                throw err;
-            })
+async function orders(req, res) {
+    try {
+        let orders = await Orders.getAll();
+        orders.forEach( (office) => {
+            order.href = tools.hrefForOrderNumber( req, order.orderNumber );
         });
+        res.json( orders );
+    } catch(err) {
+        res.write("An error occurred: " + err );
+        res.end();
+        throw err;
+    }
 }
+// function orders(req, res) {
+//
+//     let appRoot = getAppRootUrl( req )
+//
+//     db.query( 'SELECT * FROM orders')
+//         .then( rows => {
+//
+//             rows.forEach( (row) => {
+//                 row.href = appRoot + "/order/" + row.orderNumber;
+//                 row.hrefapi = appRoot + "/api/order/" + row.orderNumber;
+//                 res.write(JSON.stringify(row, undefined, 4));
+//             });
+//
+//             res.end();
+//
+//         }, err => {
+//             return db.close().then( () => {
+//                 res.write("<h3>An error occurred: " + err + "</h3>");
+//                 res.end();
+//                 throw err;
+//             })
+//         });
+// }
 
 function order(req, res) {
 
@@ -171,64 +189,42 @@ function order(req, res) {
 function payments(req, res) {
 
     let appRoot = getAppRootUrl( req )
-    db.query( 'SELECT * FROM payments' )
-        .then( rows => {
-
-            rows.forEach( (row) => {
-                row.href = appRoot + "/api/payment/" + row.customerNumber + "/" + row.checkNumber;
-                res.write(JSON.stringify(row, undefined, 4));
-            });
-
-            res.end();
-
-        }, err => {
-            return db.close().then( () => {
-                res.send("<h3>An error occurred: " + err + "</h3>");
-                throw err;
-            })
+    db.query( 'SELECT * FROM payments' ).then( rows => {
+        rows.forEach( (row) => {
+            row.href = appRoot + "/api/payment/" + row.customerNumber + "/" + row.checkNumber;
+            res.write(JSON.stringify(row, undefined, 4));
         });
+        res.end();
+    }, err => {
+        return db.close().then( () => {
+            res.send("<h3>An error occurred: " + err + "</h3>");
+            throw err;
+        })
+    });
 }
 
-function offices(req, res) {
-
-    let appRoot = getAppRootUrl( req )
-
-    db.query( 'SELECT * FROM offices' )
-        .then( rows => {
-
-            rows.forEach( (row) => {
-                row.href = appRoot + "/api/office/" + row.officeCode;
-                res.write(JSON.stringify(row, undefined, 4));
-            });
-
-            res.end();
-
-        }, err => {
-            return db.close().then( () => {
-                res.send("<h3>An error occurred: " + err + "</h3>");
-                throw err;
-            })
+async function offices(req, res) {
+    try {
+        let offices = await Offices.getAll();
+        offices.forEach( (office) => {
+            office.href = tools.hrefForOfficeCode( req, office.officeCode );
         });
+        res.json( offices );
+    } catch(err) {
+        res.write("An error occurred: " + err );
+        res.end();
+        throw err;
+    }
 }
-
 
 async function employees(req, res) {
-
     try {
         let employees = await Employees.getAll();
         employees.forEach( (employee) => {
             employee.href = tools.hrefForEmployeeNumber( req, employee.employeeNumber );
             employee.hrefOffice = tools.hrefForOfficeCode( req, employee.officeCode );
         });
-
         res.json( employees );
-
-        // res.json(await Products.list({
-        //     offset: Number(offset),
-        //     limit: Number(limit),
-        //     tag
-        // }))
-
     } catch(err) {
         res.write("An error occurred: " + err );
         res.end();
