@@ -1,20 +1,21 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var productLinesRouter = require('./routes/productlines');
-var productsRouter = require('./routes/products');
-var customersRouter = require('./routes/customers');
-var ordersRouter = require('./routes/orders');
-var paymentsRouter = require('./routes/payments');
-var officesRouter = require('./routes/offices');
-var employeesRouter = require('./routes/employees');
+const indexRouter = require('./routes/index');
+const productLinesRouter = require('./routes/productlines');
+const productsRouter = require('./routes/products');
+const customersRouter = require('./routes/customers');
+const ordersRouter = require('./routes/orders');
+const paymentsRouter = require('./routes/payments');
+const officesRouter = require('./routes/offices');
+const employeesRouter = require('./routes/employees');
+const vendorsRouter = require('./routes/vendors');
 
 const api = require('./api')
-var server = express();
+const server = express();
 
 // view engine setup
 server.set('views', path.join(__dirname, 'views'));
@@ -37,6 +38,7 @@ server.use('/orders', ordersRouter);
 server.use('/payments', paymentsRouter);
 server.use('/offices', officesRouter);
 server.use('/employees', employeesRouter);
+server.use('/vendors', vendorsRouter);
 
 // API routes
 server.get("/api/ping", api.ping );
@@ -49,6 +51,7 @@ server.get("/api/order/:orderNumber", api.order);
 server.get("/api/payments", api.payments);
 server.get("/api/offices", api.offices );
 server.get("/api/employees", api.employees );
+server.get("/api/vendors", api.vendors );
 
 // catch 404 and forward to error handler
 server.use(function(req, res, next) {

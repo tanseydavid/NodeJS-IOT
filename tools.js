@@ -23,6 +23,9 @@ module.exports =  {
     hrefForOfficeCode( req, officeCode ) {
         return getAppRootUrl(req) + "/offices/" + officeCode;
     },
+    hrefForProductVendor( req, productVendor ) {
+        return getAppRootUrl(req) + "/vendors/" + productVendor;
+    },
     classNameForProductLine( req, productLine) {
         return productLine.toLowerCase().replace(" ","-").replace(" ","-");
     },
