@@ -12,11 +12,11 @@ block content
         th(align='center') Scale
         th(align='center') Vendor
       tbody
-        each row, i in rows
+        each product, i in products
           tr
             td(align='left')
-              a(href=row.href) #{row.productCode}
-            td(align='left') #{row.productName}
-            td(align='center') #{row.productLine}
-            td(align='center') #{row.productScale}
-            td(align='center') #{row.productVendor}
+              a(href=product.href) #{product.productCode}
+            td(align='left') #{product.productName}
+            td(align='center') #{product.productLine}
+            td(align='center') #{product.productScale}
+            td(align='center') #{product.productVendor}

@@ -1,16 +1,15 @@
 extends layout
 
 block content
-  h2= rows[0].productLine
+  h2= product.productLine
   h1= title
   p
-    for row in rows
-      h4 #{"Scale: " + row.productScale }
-      h4 #{"Vendor: " + row.productVendor}
-      p
-        span #{row.productDescription + " (" }
-        a(href=row.href)
-          span.
-            #{row.productCode}
-        span )
+    h4 #{"Scale: " + product.productScale }
+    h4 #{"Vendor: " + product.productVendor}
+    p
+      span #{product.productDescription + " (" }
+      a(href=product.href)
+        span.
+          #{product.productCode}
+      span )
 

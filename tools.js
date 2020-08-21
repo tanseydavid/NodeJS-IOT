@@ -5,6 +5,9 @@ module.exports =  {
     hrefForCustomerNumber(req, customerNumber) {
         return getAppRootUrl(req) + "/customers/" +  customerNumber ;
     },
+    hrefForProductLine(req, productLine) {
+        return getAppRootUrl(req) + "/products/productLine/" + productLine;
+    },
     hrefForProductCode(req, productCode) {
         return getAppRootUrl(req) + "/products/" + productCode;
     },
@@ -19,6 +22,9 @@ module.exports =  {
     },
     hrefForOfficeCode( req, officeCode ) {
         return getAppRootUrl(req) + "/offices/" + officeCode;
+    },
+    classNameForProductLine( req, productLine) {
+        return productLine.toLowerCase().replace(" ","-").replace(" ","-");
     },
     formatCurrency( amount ) {
       let formatter = new Intl.NumberFormat('en-US', {

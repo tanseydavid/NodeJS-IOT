@@ -1,37 +1,22 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../connection');
+const express = require('express');
+const router = express.Router();
+const tools = require('../tools');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
+const ProductLines = require('../Models/ProductLinesModel')
 
-  let appRoot = getAppRootUrl( req )
-
-  db.query( 'SELECT * FROM productlines' )
-      .then( rows => {
-
-        rows.forEach( (row) => {
-          row.href = appRoot + "/products/" + row.productLine;
+router.get('/', async function(req, res, next) {
+    try {
+        let productLines = await ProductLines.getAll();
+        productLines.forEach( (productLine) => {
+            productLine.href = tools.hrefForProductLine( req, productLine.productLine );
+            productLine.productLineClass = tools.classNameForProductLine( req, productLine.productLine );
         });
-
-        res.render('productlines', { title: 'Product Lines', rows: rows });
-        // res.end();
-
-      }, err => {
-
-        console.log( "An error occurred: " + err)
-        return db.close().then( () => {
-          res.write("<h3>An error occurred: " + err + "</h3>");
-          res.end();
-          throw err;
-        })
-      });
-
-  // res.render('productlines', { title: 'Product Lines' });
+        res.render('productlines', { title: 'Product Lines', productLines: productLines });
+    } catch(err) {
+        res.write("An error occurred: " + err );
+        res.end();
+        throw err;
+    }
 });
 
 module.exports = router;
-
-function getAppRootUrl(req) {
-  return req.protocol + '://' + req.get('host') ;
-}

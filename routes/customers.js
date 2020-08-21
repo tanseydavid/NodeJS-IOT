@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../connection');
 const tools = require('../tools');
+
 const Customers = require('../models/CustomersModel');
 const Orders = require('../models/OrdersModel');
 const Payments = require('../models/PaymentsModel');
