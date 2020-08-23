@@ -17,6 +17,8 @@ block content
             td(align='left')
               a(href=product.href) #{product.productCode}
             td(align='left') #{product.productName}
-            td(align='center') #{product.productLine}
+            td(align='center')
+              a(href=product.hrefProductLine) #{product.productLine}
             td(align='center') #{product.productScale}
-            td(align='center') #{product.productVendor}
+            td(align='center')
+              a(href=product.hrefProductVendor) #{product.productVendor}

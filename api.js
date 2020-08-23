@@ -7,6 +7,7 @@ const Orders = require('./models/OrdersModel');
 const Payments = require('./models/PaymentsModel');
 const Products = require('./models/ProductsModel');
 const ProductLines = require('./models/ProductLinesModel');
+const Vendors = require('./models/VendorsModel');
 
 module.exports = {
     ping,
@@ -18,7 +19,8 @@ module.exports = {
     order,
     payments,
     offices,
-    employees
+    employees,
+    vendors
 }
 
 function ping(req, res) {
@@ -178,12 +180,25 @@ async function employees(req, res) {
     }
 }
 
+async function vendors(req, res) {
+    try {
+        let vendors = await Vendors.getAll();
+        vendors.forEach((vendor) => {
+            vendor.href = tools.hrefForProductVendor(req, vendor.productVendor);
+        });
+        res.json(vendors);
+    } catch (err) {
+        res.write("An error occurred: " + err);
+        res.end();
+        throw err;
+    }
+}
 
 function getServerNameVersion() {
     let d = getDividerString();
     return d + "Fuel@HOME.Server\n" +
-        "Version: 1.0.0.6\t\t" +
-        "Built: 2020-08-19 10:42am\n" + d;
+        "Version: 1.0.0.7\t\t" +
+        "Built: 2020-08-21 4:13pm\n" + d;
 }
 
 function getDividerString() {

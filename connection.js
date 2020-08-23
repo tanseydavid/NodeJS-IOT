@@ -1,8 +1,8 @@
 const Database = require('./Database.js');
 const db = new Database({
      host: 'localhost',
-     user: 'dtansey',
-     password: 'just4MySQL1,',
+     user: '*********',
+     password: '*********',
      database: 'classicmodels'
 });
 module.exports = db;

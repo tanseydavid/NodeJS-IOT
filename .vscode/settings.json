@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/ab1c21bf-5053-41f5-aa41-106862e53537/resourceGroups/demo-nodejs/providers/Microsoft.Web/sites/fuelathome",
+    "appService.deploySubpath": "."
+}
