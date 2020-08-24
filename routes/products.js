@@ -2,59 +2,78 @@ const express = require('express');
 const router = express.Router();
 const db = require('../connection');
 const tools = require("../tools");
+const Products = require('../models/ProductsModel');
+const ProductLines = require('../models/ProductLinesModel');
 
-router.get('/', function(req, res, next) {
-
-    // let appRoot = getAppRootUrl( req )
-
-    db.query( 'SELECT * FROM products ORDER BY productLine, productCode ')
-        .then( rows => {
-
-            rows.forEach( (row) => {
-                // row.href = appRoot + "/product/" + row.productCode;
-                row.href = tools.hrefForProductCode(req, row.productCode);
-            });
-
-            res.render('products', { title: 'Products', rows: rows });
-
-        }, err => {
-            return db.close().then( () => {
-                res.write("<h3>An error occurred: " + err + "</h3>");
-                res.end();
-                throw err;
-            })
+router.get('/', async function(req, res, next) {
+    try {
+        let products = await Products.getAll();
+        products.forEach( (product) => {
+            product.href = tools.hrefForProductCode( req, product.productCode );
+            product.hrefProductLine = tools.hrefForProductLine( req, product.productLine );
+            product.hrefProductVendor = tools.hrefForProductVendor( req, product.productVendor );
         });
 
+        let results = {
+            success: true,
+            title: 'Products',
+            data: {
+                result: products,
+                meta: null
+            }
+        }
+        res.render('products', results );
+    } catch(err) {
+        res.write("An error occurred: " + err );
+        res.end();
+        throw err;
+    }
 });
 
-router.get('/:productline', function(req, res, next) {
-
-    var productLine = req.params.productline;
-    // let appRoot = getAppRootUrl( req )
-
-    db.query( 'SELECT * FROM products WHERE productline = ? ORDER BY productLine, productCode ', productLine )
-        .then( rows => {
-
-            rows.forEach( (row) => {
-                // row.href = appRoot + "/product/" + row.productCode;
-                row.href = tools.hrefForProductCode(req, row.productCode);
-            });
-
-            res.render('products', { title: productLine, rows: rows });
-
-        }, err => {
-            return db.close().then( () => {
-                res.write("<h3>An error occurred: " + err + "</h3>");
-                res.end();
-                throw err;
-            })
+router.get('/productLine/:productline', async function(req, res, next) {
+    let productLine = req.params.productline;
+    try {
+        debugger;
+        let productLineDetail = await ProductLines.getByProductLine(productLine);
+        productLineDetail.productLineClass = tools.classNameForProductLine( req, productLineDetail.productLine );
+        let products = await Products.getByProductLine(productLine);
+        products.forEach( (product) => {
+            product.href = tools.hrefForProductCode(req, product.productCode);
+            product.hrefProductLine = tools.hrefForProductLine( req, product.productLine );
+            product.hrefProductVendor = tools.hrefForProductVendor( req, product.productVendor );
         });
 
+        let results = {
+            success: true,
+            title: productLine,
+            productLineDetail: productLineDetail,
+            data: {
+              result: products,
+              meta: null
+            }
+        }
+
+        res.render('products', results);
+    } catch(err) {
+        res.write("An error occurred: " + err );
+        res.end();
+        throw err;
+    }
+});
+
+router.get('/:productCode', async function(req, res, next) {
+    let productCode = req.params.productCode;
+    try {
+        let product = await Products.getByProductCode(productCode);
+        product.href = tools.hrefForProductCode(req, product.productCode);
+        product.hrefProductLine = tools.hrefForProductLine( req, product.productLine );
+        product.hrefProductVendor = tools.hrefForProductVendor( req, product.productVendor );
+        res.render('product', { title:  product.productName, product: product });
+    } catch(err) {
+        res.write("An error occurred: " + err );
+        res.end();
+        throw err;
+    }
 });
 
 module.exports = router;
-
-// function getAppRootUrl(req) {
-//     return req.protocol + '://' + req.get('host') ;
-// }
-//

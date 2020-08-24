@@ -9,9 +9,9 @@ block content
         th Customer #
         th(align='center') Customer Name
       tbody
-        each row, i in rows
+        each customer, i in customers
           tr
             td(align='center')
-              a(href=row.href) #{row.customerNumber}
+              a(href=customer.href) #{customer.customerNumber}
             td
-              span #{row.customerName}
+              span #{customer.customerName}

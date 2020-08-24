@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+
+  div
+    table
+      thead
+        th(align='center') Product Vendor Name
+      tbody
+        each vendor, i in vendors
+          tr
+            td(align='left')
+              h4
+                a(href=row.href) #{row.city}
+            td
+              span #{row.phone}

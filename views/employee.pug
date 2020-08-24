@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1= title
+  h3= employee.jobTitle
+
+
+  div
+    table
+      thead
+        th Employee #
+        th(align='center') Name
+        th(align='center') Title
+        th(align='center') Office
+      tbody
+          tr
+            td(align='center')
+              a(href=employee.href) #{employee.employeeNumber}
+            td
+              span #{employee.lastName + ", " + employee.firstName}
+            td(align='center')
+              span #{employee.jobTitle}
+            td(align='center')
+              a(href=employee.hrefOffice) #{employee.officeCity}

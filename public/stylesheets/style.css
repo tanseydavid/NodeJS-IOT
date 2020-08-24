@@ -1,5 +1,4 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -22,4 +21,59 @@ a {
 td
 {
   padding:0 15px;
+}
+
+.mdl-layout__content {
+  padding: 10px;
+}
+
+<!-- Wide card with share menu button -->
+ .demo-card-wide.mdl-card {
+   width: 512px;
+ }
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('../images/diecast-classic-car.jpg') center / cover;
+}
+.demo-card-wide-classic-cars > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('../images/diecast-classic-car.jpg') center / cover;
+}
+.demo-card-wide-ships > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('../images/diecast-ship.jpg') center / cover;
+}
+.demo-card-wide-planes > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('../images/diecast-plane.jpg') center / cover;
+}
+.demo-card-wide-motorcycles > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('../images/diecast-motorcycle.jpg') center / cover;
+}
+.demo-card-wide-vintage-cars > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('../images/diecast-vintage-car.jpg') center / cover;
+}
+.demo-card-wide-trucks-and-buses > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('../images/diecast-bus.jpg') center / cover;
+}
+.demo-card-wide-trains > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: url('../images/diecast-train.jpg') center / cover;
+}
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}
+.mdl-card__title-text {
+  color: #fff;
 }

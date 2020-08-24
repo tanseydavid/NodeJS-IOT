@@ -1,35 +1,21 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
-var productLinesRouter = require('./routes/productlines');
-var productsRouter = require('./routes/products');
-var productRouter = require('./routes/product');
-var customersRouter = require('./routes/customers');
-var customerRouter = require('./routes/customer');
-var ordersRouter = require('./routes/orders');
-var orderRouter = require('./routes/order');
-var paymentsRouter = require('./routes/payments');
-var officesRouter = require('./routes/offices');
-var employeesRouter = require('./routes/employees');
+const indexRouter = require('./routes/index');
+const productLinesRouter = require('./routes/productlines');
+const productsRouter = require('./routes/products');
+const customersRouter = require('./routes/customers');
+const ordersRouter = require('./routes/orders');
+const paymentsRouter = require('./routes/payments');
+const officesRouter = require('./routes/offices');
+const employeesRouter = require('./routes/employees');
+const vendorsRouter = require('./routes/vendors');
 
 const api = require('./api')
-var server = express();
-
-const dateFormat = {
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-};
-const currencyFormat = new Intl.NumberFormat('en-INR', {
-  style: 'currency',
-  currency: 'INR',
-  minimumFractionDigits: 2,
-});
+const server = express();
 
 // view engine setup
 server.set('views', path.join(__dirname, 'views'));
@@ -43,16 +29,16 @@ server.use(express.static(path.join(__dirname, 'public')));
 
 // HTML routes
 server.use('/', indexRouter);
+server.use('/about', indexRouter);
+server.use('/contact', indexRouter);
 server.use('/productlines', productLinesRouter);
 server.use('/products', productsRouter);
-server.use('/product', productRouter);
 server.use('/customers', customersRouter);
-server.use('/customer', customerRouter);
 server.use('/orders', ordersRouter);
-server.use('/order', orderRouter);
 server.use('/payments', paymentsRouter);
 server.use('/offices', officesRouter);
 server.use('/employees', employeesRouter);
+server.use('/vendors', vendorsRouter);
 
 // API routes
 server.get("/api/ping", api.ping );
@@ -65,6 +51,7 @@ server.get("/api/order/:orderNumber", api.order);
 server.get("/api/payments", api.payments);
 server.get("/api/offices", api.offices );
 server.get("/api/employees", api.employees );
+server.get("/api/vendors", api.vendors );
 
 // catch 404 and forward to error handler
 server.use(function(req, res, next) {
@@ -83,7 +70,3 @@ server.use(function(err, req, res, next) {
 });
 
 module.exports = server;
-
-function getAppRootUrl(req) {
-  return req.protocol + '://' + req.get('host') ;
-}

@@ -12,17 +12,15 @@ block content
         th Status
         th(align='center') Customer
       tbody
-        each row, i in rows
+        each order, i in orders
           tr
             td(align='left')
-              a(href=row.href) #{row.orderNumber}
+              a(href=order.href) #{order.orderNumber}
             td.
-              #{row.orderDate.toLocaleDateString("en-US", dateFormat)}
+              #{order.orderDate.toLocaleDateString("en-US", dateFormat)}
             td.
-              #{row.status}
-            td.
-              #{row.customerName}
+              #{order.status}
             td
-              a(href=row.hrefCustomer) #{ "(" + row.customerNumber +")" }
-              row.customerName
-
+              | #{order.customerName }  (
+              a(href=order.hrefCustomer) #{order.customerNumber}
+              | )

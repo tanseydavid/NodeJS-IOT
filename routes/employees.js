@@ -1,33 +1,37 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../connection');
+const express = require('express');
+const router = express.Router();
+const tools = require('../tools');
+const Employees = require('../models/EmployeesModel');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-
-  let appRoot = getAppRootUrl( req )
-
-  db.query( 'SELECT * FROM employees' )
-      .then( rows => {
-
-        rows.forEach( (row) => {
-          row.href = appRoot + "/employee/" + row.employeeNumber;
+router.get('/', async function(req, res, next) {
+    try {
+        let employees = await Employees.getAll();
+        employees.forEach( (employee) => {
+            employee.href = tools.hrefForEmployeeNumber( req, employee.employeeNumber );
+            employee.hrefOffice = tools.hrefForOfficeCode( req, employee.officeCode );
         });
-
-        res.render('employees', { title: 'Employees', rows: rows });
-
-      }, err => {
-        return db.close().then( () => {
-          res.write("<h3>An error occurred: " + err + "</h3>");
-          res.end();
-          throw err;
-        })
-      });
-
+        res.render('employees', { title: 'Employees', rows: employees });
+    } catch(err) {
+        res.write("An error occurred: " + err );
+        res.end();
+        throw err;
+    }
 });
 
-module.exports = router;
+router.get('/:employeeNumber', async function(req, res, next) {
+    let employeeNumber = req.params.employeeNumber;
+    try {
+        let employee = await Employees.getByEmployeeNumber(employeeNumber);
+        employee.href = tools.hrefForEmployeeNumber( req, employee.employeeNumber );
+        employee.hrefOffice = tools.hrefForOfficeCode( req, employee.officeCode );
+        let title = employee.lastName + ", " + employee.firstName + " (" + employee.employeeNumber + ")";
+        res.render('employee', { title: title, employee: employee });
+    } catch(err) {
+        res.write("An error occurred: " + err );
+        res.end();
+        throw err;
+    }
+});
 
-function getAppRootUrl(req) {
-  return req.protocol + '://' + req.get('host') ;
-}
+
+module.exports = router;

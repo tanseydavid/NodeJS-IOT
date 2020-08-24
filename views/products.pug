@@ -1,18 +1,32 @@
 extends layout
+include mixins/util
 
 block content
-  h1= title
+  div.mdl-grid
+    -if (typeof(productLineDetail) != "undefined")
+      div.mdl-cell.mdl-cell--3-col.graybox
+        +productLineCard( productLineDetail )
 
-  - var currentProductLine = ""
-  p
-    for row in rows
-      if (currentProductLine != row.productLine)
-        h2=row.productLine
-        - currentProductLine = row.productLine
-      p
-        span #{row.productName + " (" }
-        a(href=row.href)
-          span.
-            #{row.productCode}
-        span )
+    div.mdl-cell.mdl-cell--6-col.graybox
+      h2= title
 
+      div
+        table
+          thead
+            th Product Code
+            th(align='center') Name
+            th(align='center') Product Line
+            th(align='center') Scale
+            th(align='center') Vendor
+          tbody
+            -if (typeof(data) != "undefined")
+            each product, i in data.result
+              tr
+                td(align='left')
+                  a(href=product.href) #{product.productCode}
+                td(align='left') #{product.productName}
+                td(align='center')
+                  a(href=product.hrefProductLine) #{product.productLine}
+                td(align='center') #{product.productScale}
+                td(align='center')
+                  a(href=product.hrefProductVendor) #{product.productVendor}

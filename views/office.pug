@@ -1,0 +1,40 @@
+extends layout
+
+block content
+  h1= title
+
+  p
+    h3=office.phone
+    p.
+      #{office.addressLine1} #{office.addressLine2}
+    p.
+      #{office.city}, #{office.state}
+      &nbsp;&nbsp; #{office.postalCode}
+    p.
+      #{office.country}
+
+  br
+  hr
+  h4 Employees
+  hr
+  div
+    table
+      thead
+        th(align='left') Employee #
+        th Name
+        th Title
+        th Email
+        th Extension
+      tbody
+        each employee, i in office.employees
+          tr
+            td(align='left')
+              a(href=employee.href) #{employee.employeeNumber}
+            td.
+              #{employee.lastName + ", " + employee.firstName }
+            td.
+              #{employee.jobTitle}
+            td.
+              #{employee.email}
+            td.
+              #{employee.extension}

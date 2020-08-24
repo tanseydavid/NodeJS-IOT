@@ -1,28 +1,29 @@
 extends layout
 
 block content
-  - var currencyFormat = new Intl.NumberFormat('en-INR', { style: 'currency', currency: 'USD', minimumFractionDigits: 2});
   - var dateFormat = { year: "numeric", month: "2-digit", day: "2-digit" };
   h1= title
 
   div
       table
           thead
-              th Payment Date
-              th Amount
-              th
-              th(align='center') Customer
-              th Check Number
+            th(align='left') Check Number
+            th Payment Date
+            th Amount
+            th
+            th(align='center') Customer
           tbody
-              each row, i in rows
+              each payment, i in payments
                   tr
-                      td.
-                          #{row.paymentDate.toLocaleDateString("en-US", dateFormat)}
-                      td(align='right').
-                          #{ currencyFormat.format( row.amount )}
-                      td
-                        |
-                      td.
-                          #{row.customerName + " (" + row.customerNumber + ")"}
-                      td(align='center')
-                          a(href='/payments/' + row.checkNumber + "/" + row.customerNumber) #{row.checkNumber}
+                    td(align='left')
+                      a(href=payment.href) #{payment.checkNumber}
+                    td.
+                      #{payment.paymentDate.toLocaleDateString("en-US", dateFormat)}
+                    td(align='right').
+                      #{ tools.formatCurrency( payment.amount ) }
+                    td
+                      |
+                    td
+                      | #{payment.customerName }  (
+                      a(href=payment.hrefCustomer) #{payment.customerNumber}
+                      | )

@@ -1,13 +1,34 @@
 extends layout
+include mixins/util
 
 block content
   h1= title
 
-  p
-    for row in rows
-      h3
-        - var href = "/products/" + row.productLine;
-        a(href=href)
-          p=row.productLine
-      p=row.textDescription
+  div.mdl-grid
+    for productLine in productLines
+      +productLineCard( productLine )
 
+  p
+    for productLine in productLines
+      h3
+        a(href=productLine.href)
+          h4=productLine.productLine
+      p=productLine.textDescription
+
+  div.mdl-grid
+    for productLine in productLines
+      div.mdl-cell.mdl-cell--3-col.graybox
+        div(class="demo-card-wide-" + productLine.productLineClass + " mdl-card mdl-shadow--6dp")
+          div.mdl-card__title
+            h2.mdl-card__title-text
+              =productLine.productLine
+          div.mdl-card__supporting-text
+            p=productLine.textDescription
+          div.mdl-card__actions.mdl-card--border
+            a(href=productLine.hrefProductLine).mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect
+              | See All
+              =productLine.productLine
+          div.mdl-card__menu
+            button.mdl-button.mdl-button--icon.mdl-js-button.mdl-js-ripple-effect
+              i.material-icons
+                share
