@@ -33,7 +33,6 @@ router.get('/', async function(req, res, next) {
 router.get('/productLine/:productline', async function(req, res, next) {
     let productLine = req.params.productline;
     try {
-        debugger;
         let productLineDetail = await ProductLines.getByProductLine(productLine);
         productLineDetail.productLineClass = tools.classNameForProductLine( req, productLineDetail.productLine );
         let products = await Products.getByProductLine(productLine);
