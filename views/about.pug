@@ -2,11 +2,38 @@ extends layout
 include mixins/util
 
 block content
-  h1= title
-  h5 NodeJS Reference Application
-  p v1.0.0.7
+  h2= title
+  h4 Fuel@HOME - NodeJS Reference Application
+  p v1.0.0.8
   div.row
     div.column
-      h3 Tools / Frameworks used
-      +link('/foo', 'foo')(class="btn")
-  +test()
+      h3 Back-End
+        ul
+          li
+            h4 NodeJS v14.8.0
+            +link('https://nodejs.org/en/about/releases/', 'more info')(class="btn")
+          li
+            h4 MySQL v8.0.21
+            +link('https://dev.mysql.com/', 'more info') 
+            br  
+            +link('https://www.mysqltutorial.org/mysql-sample-database.aspx/', 'sample database')(class="btn")            
+          li
+            h4 ExpressJS v4.17.1
+            +link('https://expressjs.com/', 'more info')(class="btn")
+    div.column
+      h3 Front-End
+        ul
+          li
+            h4 PUG templates v3
+            | (formerly JADE) 
+            +link('https://pugjs.org/api/getting-started.html', 'more info')(class="btn")
+          li
+            h4 Material Design Lite
+            +link('https://getmdl.io/', 'more info')(class="btn")
+    div.column
+      h3 Source Code
+        ul
+          li
+            h4 GitHub (public)
+            +link('https://github.com/tanseydavid/NodeJS-IoT', 'view repo')(class="btn")
+        
