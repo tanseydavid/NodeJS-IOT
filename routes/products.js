@@ -13,7 +13,16 @@ router.get('/', async function(req, res, next) {
             product.hrefProductLine = tools.hrefForProductLine( req, product.productLine );
             product.hrefProductVendor = tools.hrefForProductVendor( req, product.productVendor );
         });
-        res.render('products', { title: 'Products', products: products });
+
+        let results = {
+            success: true,
+            title: 'Products',
+            data: {
+                result: products,
+                meta: null
+            }
+        }
+        res.render('products', results );
     } catch(err) {
         res.write("An error occurred: " + err );
         res.end();
@@ -26,7 +35,6 @@ router.get('/productLine/:productline', async function(req, res, next) {
     try {
         debugger;
         let productLineDetail = await ProductLines.getByProductLine(productLine);
-        let t = productLineDetail.productLine;
         productLineDetail.productLineClass = tools.classNameForProductLine( req, productLineDetail.productLine );
         let products = await Products.getByProductLine(productLine);
         products.forEach( (product) => {
@@ -46,8 +54,6 @@ router.get('/productLine/:productline', async function(req, res, next) {
         }
 
         res.render('products', results);
-        // res.render('products', { title: productLine, products: products });
-
     } catch(err) {
         res.write("An error occurred: " + err );
         res.end();

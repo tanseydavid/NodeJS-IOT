@@ -3,8 +3,9 @@ include mixins/util
 
 block content
   div.mdl-grid
-    div.mdl-cell.mdl-cell--3-col.graybox
-      +productLineCard( productLineDetail )
+    -if (typeof(productLineDetail) != "undefined")
+      div.mdl-cell.mdl-cell--3-col.graybox
+        +productLineCard( productLineDetail )
 
     div.mdl-cell.mdl-cell--6-col.graybox
       h2= title
@@ -18,6 +19,7 @@ block content
             th(align='center') Scale
             th(align='center') Vendor
           tbody
+            -if (typeof(data) != "undefined")
             each product, i in data.result
               tr
                 td(align='left')
