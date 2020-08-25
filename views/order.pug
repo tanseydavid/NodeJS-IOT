@@ -9,7 +9,7 @@ block content
     | )
   hr
   div
-    table
+    table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
       thead
         th Order Date
         th Status
@@ -24,7 +24,7 @@ block content
     h3 Items
     hr
     div
-      table
+      table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
         thead
           th Line #
           th Product Code
@@ -42,9 +42,6 @@ block content
               td(align='right')= detail.priceEachFormatted
               td(align='right')= detail.quantityOrdered
               td(align='right')= detail.priceExtendedFormatted
-          tr
-            td(colspan=6)
-              hr
           tr
             td(colspan=4)
             td
