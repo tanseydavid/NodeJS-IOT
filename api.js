@@ -87,7 +87,7 @@ async function productlines(req, res) {
 async function orders(req, res) {
     try {
         let orders = await Orders.getAll();
-        orders.forEach( (office) => {
+        orders.forEach( (order) => {
             order.href = tools.hrefForOrderNumber( req, order.orderNumber );
         });
         res.json( orders );
@@ -197,8 +197,8 @@ async function vendors(req, res) {
 function getServerNameVersion() {
     let d = getDividerString();
     return d + "Fuel@HOME.Server\n" +
-        "Version: 1.0.0.8\t\t" +
-        "Built: 2020-08-24 7:53am\n" + d;
+        "Version: 1.0.0.9\t\t" +
+        "Built: 2020-08-24 10:47pm\n" + d;
 }
 
 function getDividerString() {
