@@ -4,6 +4,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+require('dotenv').config();
+
 const indexRouter = require('./routes/index');
 const productLinesRouter = require('./routes/productlines');
 const productsRouter = require('./routes/products');
@@ -16,6 +18,7 @@ const vendorsRouter = require('./routes/vendors');
 
 const api = require('./api')
 const server = express();
+
 
 // view engine setup
 server.set('views', path.join(__dirname, 'views'));
