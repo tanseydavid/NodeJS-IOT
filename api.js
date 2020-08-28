@@ -199,7 +199,7 @@ function getServerNameVersion() {
     let d = getDividerString();
     return d + "Fuel@HOME.Server\n" +
         "Version: " +  version + "\t\t\t" +
-        "Built: 2020-08-27 4:52pm\n" + d;
+        "Built: 2020-08-28 1:07pm\n" + d;
 }
 
 function getDividerString() {
