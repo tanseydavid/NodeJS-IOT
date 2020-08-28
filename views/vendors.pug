@@ -4,14 +4,14 @@ block content
   h1= title
 
   div
-    table
+    table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
       thead
-        th(align='center') Product Vendor Name
+        th(align='left') Vendor Name
+        th Number of Products
       tbody
         each vendor, i in vendors
           tr
             td(align='left')
-              h4
-                a(href=row.href) #{row.city}
+              a(href=vendor.href) #{vendor.productVendor}
             td
-              span #{row.phone}
+              span #{vendor.productCount}

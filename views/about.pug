@@ -4,31 +4,28 @@ include mixins/util
 block content
   h2= title
   h4 Fuel@HOME - NodeJS Reference Application
-  p v1.0.0.9
+  p v#{ version }
   div.row
     div.column
       h3 Back-End
-        ul
-          li
-            h4 NodeJS v14.8.0
+        h4 NodeJS
+          p v14.8.0 &nbsp;
             +link('https://nodejs.org/en/about/releases/', 'more info')(class="btn")
-          li
-            h4 MySQL v8.0.21
-            +link('https://dev.mysql.com/', 'more info') 
-            br  
-            +link('https://www.mysqltutorial.org/mysql-sample-database.aspx/', 'sample database')(class="btn")            
-          li
-            h4 ExpressJS v4.17.1
+        h4 MySQL
+          p v8.0.21 &nbsp;
+            +link('https://dev.mysql.com/', 'more info')
+            br
+            +link('https://www.mysqltutorial.org/mysql-sample-database.aspx/', 'sample database')(class="btn")
+        h4 ExpressJS
+          p v4.17.1 &nbsp;
             +link('https://expressjs.com/', 'more info')(class="btn")
     div.column
       h3 Front-End
-        ul
-          li
-            h4 PUG templates v3
-            | (formerly JADE) 
+        h4 PUG templates
+          p v3 (formerly JADE) &nbsp;
             +link('https://pugjs.org/api/getting-started.html', 'more info')(class="btn")
-          li
-            h4 Material Design Lite
+        h4 Material Design Lite
+          p v0.10.0 &nbsp;
             +link('https://getmdl.io/', 'more info')(class="btn")
     div.column
       h3 Source Code

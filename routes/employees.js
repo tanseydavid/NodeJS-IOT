@@ -8,8 +8,10 @@ router.get('/', async function(req, res, next) {
         let employees = await Employees.getAll();
         employees.forEach( (employee) => {
             employee.href = tools.hrefForEmployeeNumber( req, employee.employeeNumber );
+            employee.hrefReportsTo = tools.hrefForEmployeeNumber( req, employee.reportsTo );
             employee.hrefOffice = tools.hrefForOfficeCode( req, employee.officeCode );
         });
+        debugger;
         res.render('employees', { title: 'Employees', rows: employees });
     } catch(err) {
         res.write("An error occurred: " + err );
@@ -24,14 +26,15 @@ router.get('/:employeeNumber', async function(req, res, next) {
         let employee = await Employees.getByEmployeeNumber(employeeNumber);
         employee.href = tools.hrefForEmployeeNumber( req, employee.employeeNumber );
         employee.hrefOffice = tools.hrefForOfficeCode( req, employee.officeCode );
-        let title = employee.lastName + ", " + employee.firstName + " (" + employee.employeeNumber + ")";
+        employee.hrefReportsTo = tools.hrefForEmployeeNumber( req, employee.reportsTo );
+        let title = employee.lastName + ", " + employee.firstName;
+        debugger;
         res.render('employee', { title: title, employee: employee });
-    } catch(err) {
+        } catch(err) {
         res.write("An error occurred: " + err );
         res.end();
         throw err;
     }
 });
-
 
 module.exports = router;

@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  - var dateFormat = { year: "numeric", month: "2-digit", day: "2-digit" };
+  h1= title
+
+  div
+      table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
+          thead
+            th(align='left') Check Number
+            th Payment Date
+            th Amount
+            th
+            th(align='center') Customer
+          tbody
+              tr
+                td(align='left')
+                  a(href=payment.href) #{payment.checkNumber}
+                td.
+                  #{payment.paymentDate.toLocaleDateString("en-US", dateFormat)}
+                td(align='right').
+                  #{ tools.formatCurrency( payment.amount ) }
+                td
+                  |
+                td
+                  | #{payment.customerName }  (
+                  a(href=payment.hrefCustomer) #{payment.customerNumber}
+                  | )

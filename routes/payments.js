@@ -25,12 +25,11 @@ router.get('/:checkNumber/:customerNumber', async function(req, res, next) {
     let customerNumber = req.params.customerNumber;
 
     try {
-        let payments = await Payments.getAll();
-        payments.forEach( (payment) => {
-            payment.href = tools.hrefForPayment( req, payment.checkNumber, payment.customerNumber );
-            payment.hrefCustomer = tools.hrefForCustomerNumber( req, payment.customerNumber );
-        });
-        res.render('payments', { title: 'Payments', payments: payments, tools: tools });
+        let payment = await Payments.getByCheckNumberAndCustomerNumber( checkNumber, customerNumber );
+        payment.href = tools.hrefForPayment( req, payment.checkNumber, payment.customerNumber );
+        payment.hrefCustomer = tools.hrefForCustomerNumber( req, payment.customerNumber );
+        debugger;
+        res.render('payment', { title: 'Payment', payment: payment, tools: tools });
     } catch(err) {
         res.write("An error occurred: " + err );
         res.end();

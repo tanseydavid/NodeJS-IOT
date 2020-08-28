@@ -1,12 +1,16 @@
 extends layout
 
 block content
+  h6.
+    Employee ##{employee.employeeNumber}
   h1= title
   h3= employee.jobTitle
 
-
+  br
+  hr
+  h6 Reports To
   div
-    table
+    table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
       thead
         th Employee #
         th(align='center') Name
@@ -15,10 +19,32 @@ block content
       tbody
           tr
             td(align='center')
-              a(href=employee.href) #{employee.employeeNumber}
+              a(href=employee.hrefReportsTo) #{employee.reportsTo}
             td
-              span #{employee.lastName + ", " + employee.firstName}
+              span #{employee.reportsToLastName + ", " + employee.reportsToFirstName }
             td(align='center')
-              span #{employee.jobTitle}
+              span #{employee.reportsToJobTitle}
             td(align='center')
               a(href=employee.hrefOffice) #{employee.officeCity}
+
+  br
+  hr
+  h6 Direct Reports
+  div
+    table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
+      thead
+        th Employee #
+        th(align='center') Name
+        th(align='center') Title
+        th(align='center') Office
+      tbody
+        each directReport in employee.directReports
+          tr
+            td(align='center')
+              a(href=directReport.href) #{directReport.employeeNumber}
+            td
+              span #{directReport.lastName + ", " + directReport.firstName }
+            td(align='center')
+              span #{directReport.jobTitle}
+            td(align='center')
+              a(href=directReport.hrefOffice) #{directReport.officeCity}
