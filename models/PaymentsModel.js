@@ -4,14 +4,11 @@ const tools = require( '../tools');
 module.exports = {
 
     async getByCheckNumberAndCustomerNumber(checkNumber, customerNumber) {
-        let sqlPayment = "SELECT * FROM payments p " +
+        let sqlPayment = "SELECT * FROM payments " +
             "  WHERE checkNumber = ? AND customerNumber = ? " +
             "  ORDER BY paymentDate DESC";
-
-        const payment = await db.query(sqlPayment, checkNumber, customerNumber);
-        // payments.forEach( (payment) => {
-        // });
-        return payments;
+        const payment = await db.query(sqlPayment, [checkNumber, customerNumber]);
+        return payment[0];
     },
 
     async getByCustomerNumber(customerNumber) {

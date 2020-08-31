@@ -1,21 +1,35 @@
 const db = require('../connection');
+const tools = require('../tools');
 
 module.exports = {
 
-    // async getByOfficeCode(officeCode) {
-    //     let sqlOffice = 'SELECT * FROM offices WHERE officeCode = ?';
-    //     let sqlEmployees = 'SELECT * FROM employees WHERE officeCode = ? ORDER BY lastName, firstName';
-    //     const office = await db.query(sqlOffice, officeCode);
-    //     if (office.length < 1) {
-    //         throw new Error('Office with this officeCode was not found');
-    //     }
-    //     const officeEmployees = await db.query( sqlEmployees, officeCode );
-    //     office[0].employees = officeEmployees;
-    //     return office[0];
-    // },
+    async getByProductVendor(productVendor) {
+        let sqlVendor =
+            'SELECT productVendor ' +
+            '  FROM classicmodels.products ' +
+            '  WHERE productVendor = ? ';
+        let sqlVendorProducts = 'SELECT * FROM products WHERE productVendor = ? ORDER BY productLine, productCode';
+        const vendor = await db.query(sqlVendor, productVendor);
+        if (vendor.length < 1) {
+            throw new Error('Vendor with this productVendor was not found');
+        }
+        const vendorProducts = await db.query( sqlVendorProducts, productVendor );
+        vendor[0].products = vendorProducts;
+        vendorProducts.forEach( (product) => {
+            product.buyPriceFormatted = tools.formatCurrency( product.buyPrice );
+            product.MSRPFormatted = tools.formatCurrency( product.MSRP );
+        });
+
+        return vendor[0];
+    },
 
     async getAll() {
-        let sqlVendors = 'SELECT DISTINCT productVendor FROM products ORDER BY 1';
+        let sqlVendors =
+            'SELECT productVendor, COUNT(*) AS productCount ' +
+            '  FROM classicmodels.products ' +
+            '  GROUP BY productVendor'
+            '  ORDER BY 1';
+
         const vendors = await db.query(sqlVendors);
         return vendors;
     }

@@ -5,14 +5,21 @@ module.exports = {
 
     async getByEmployeeNumber(employeeNumber) {
         let sqlEmployee =
-            'SELECT e.*, o.City AS officeCity FROM employees e ' +
+            'SELECT e.*, rt.lastName AS reportsToLastName, rt.firstName AS reportsToFirstName, rt.jobTitle AS reportsToJobTitle, o.City AS officeCity FROM employees e ' +
             ' LEFT OUTER JOIN offices o ON o.officeCode = e.officeCode ' +
-            ' WHERE employeeNumber = ? ' +
+            ' LEFT OUTER JOIN employees rt ON rt.employeeNumber = e.reportsTo ' +
+            ' WHERE e.employeeNumber = ? ' +
             ' ORDER BY lastName, FirstName';
-        const employee = await db.query(sqlEmployee, [employeeNumber]);
+        let sqlEmployeeDirectReports =
+            'SELECT * FROM employees e ' +
+            ' WHERE e.reportsTo = ? ' +
+            ' ORDER BY lastName, FirstName';
+        let employee = await db.query(sqlEmployee, [employeeNumber]);
         if (employee.length < 1) {
             throw new Error('Employee with this employeeNumber was not found');
         }
+        const employeeDirectReports = await db.query(sqlEmployeeDirectReports, [employeeNumber]);
+        employee[0].directReports = employeeDirectReports;
         return employee[0];
     },
 

@@ -3,6 +3,9 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const swaggerUi = require('swagger-ui-express')
+// import {swaggerDocument} from "./swagger";
+const swaggerDocument = require('./swagger.json');
 
 require('dotenv').config();
 
@@ -29,6 +32,7 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 server.use(cookieParser());
 server.use(express.static(path.join(__dirname, 'public')));
+// server.use('/api-docs',swaggerUi.serve, swaggerUi.setup( swaggerDocument ));
 
 // HTML routes
 server.use('/', indexRouter);

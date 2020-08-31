@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  h1= title
+  h3  Vendor
+
+  br
+  hr
+  h4 Products
+  hr
+  div
+    table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp
+      thead
+        th(align='left') Product Code
+        th Product Name
+        th Product Line
+        th Product Scale
+        th Quantity in Stock
+        th Buy Price
+        th MSRP
+      tbody
+        each product, i in vendor.products
+          tr
+            td(align='left')
+              a(href=product.href) #{product.productCode}
+            td.
+              #{product.productName }
+            td
+              a(href=product.hrefProductLine) #{product.productLine}
+            td.
+              #{product.productScale}
+            td.
+              #{product.quantityInStock}
+            td.
+              #{product.buyPriceFormatted}
+            td.
+              #{product.MSRPFormatted}
