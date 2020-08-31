@@ -197,8 +197,8 @@ async function vendors(req, res) {
 function getServerNameVersion() {
     let d = getDividerString();
     return d + "Fuel@HOME.Server\n" +
-        "Version: 1.0.0.9\t\t" +
-        "Built: 2020-08-24 10:47pm\n" + d;
+        "Version: 1.0.0.10\t\t" +
+        "Built: 2020-08-26 4:09pm\n" + d;
 }
 
 function getDividerString() {
