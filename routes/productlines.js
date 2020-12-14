@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const tools = require('../tools');
 
-const ProductLines = require('../Models/ProductLinesModel')
-const Products = require('../Models/ProductsModel')
+const ProductLines = require('../models/ProductLinesModel')
+const Products = require('../models/ProductsModel')
 
 router.get('/', async function(req, res, next) {
     try {
