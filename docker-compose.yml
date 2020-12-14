@@ -1,0 +1,30 @@
+version: "3.1"
+services:
+  mysql:
+    env_file: ./.env
+    image: mysql:5.7.16
+    container_name: mysql
+    volumes:
+      - ./datanew/db:/var/lib/mysql
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      "MYSQL_DATABASE": "${DB_DATABASE}"
+      "MYSQL_ROOT_PASSWORD": "${DB_PASSWORD}"
+
+  app:
+    image: node:latest
+    container_name: nodejs-iot
+    working_dir: /application
+    volumes:
+      - .:/application
+    links:
+      - mysql
+    ports:
+      - "3080"
+    entrypoint: /application/start_application.sh
+    env_file: ./.env
+    environment:
+      "NODE_ENV": "development"
+
