@@ -6,13 +6,14 @@ services:
     container_name: mysql
     volumes:
       - ./datanew/db:/var/lib/mysql
+      - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql
+    command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports:
-      - "3306:8306"
+      - "3306:3306"
     environment:
       "MYSQL_DATABASE": "${DB_DATABASE}"
       "MYSQL_ROOT_PASSWORD": "${DB_PASSWORD}"
-
   app:
     image: node:latest
     container_name: nodejs-iot
@@ -22,11 +23,10 @@ services:
     volumes:
       - .:/application
     links:
-      - mysql
+      - mysql:mysql
     ports:
-      - "3080"
+      - "3080:3080"
     entrypoint: /application/start_application.sh
     env_file: ./.env
     environment:
       "NODE_ENV": "development"
-
