@@ -32,7 +32,7 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 server.use(cookieParser());
 server.use(express.static(path.join(__dirname, 'public')));
-// server.use('/api-docs',swaggerUi.serve, swaggerUi.setup( swaggerDocument ));
+server.use('/api-docs',swaggerUi.serve, swaggerUi.setup( swaggerDocument ));
 
 // HTML routes
 server.use('/', indexRouter);
