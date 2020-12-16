@@ -121,7 +121,7 @@ dist
 .idea/runConfigurations/bin_www.xml
 
 # mysql databases
-# NO datanew/
+datanew/
 # NO datanew/db/
 ib_buffer_pool
 ib_logfile0
