@@ -121,4 +121,5 @@ dist
 .idea/runConfigurations/bin_www.xml
 
 # mysql databases
-ibdata*
+datanew/
+datanew/db/
