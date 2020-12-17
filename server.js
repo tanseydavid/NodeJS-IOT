@@ -1,10 +1,19 @@
+// hi.js
+var bunyan = require('bunyan');
+var log = bunyan.createLogger({name: 'myapp'});
+log.info('hi');
+log.warn({lang: 'fr'}, 'au revoir');
+
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+const morgan = require('morgan');
+const addRequestId = require('express-request-id')();
+const logger = require('./logger');
+
 const swaggerUi = require('swagger-ui-express')
-// import {swaggerDocument} from "./swagger";
 const swaggerDocument = require('./swagger.json');
 
 require('dotenv').config();
@@ -22,12 +31,55 @@ const vendorsRouter = require('./routes/vendors');
 const api = require('./api')
 const server = express();
 
-
 // view engine setup
 server.set('views', path.join(__dirname, 'views'));
 server.set('view engine', 'pug');
 
-server.use(logger('dev'));
+server.use(addRequestId);
+morgan.token('id', function getId(req) {
+  return req.id
+});
+const loggerFormat = ':id [:date[web]]" :method :url" :status :response-time';
+
+// server.use(logger('dev'));
+server.use(morgan(loggerFormat, {
+  skip: function (req, res) {
+    return res.statusCode < 400
+  },
+  stream: process.stderr
+}));
+
+server.use(morgan(loggerFormat, {
+  skip: function (req, res) {
+    return res.statusCode >= 400
+  },
+  stream: process.stdout
+}));
+
+server.use(function (req, res, next){
+  var log = logger.loggerInstance.child({
+    id: req.id,
+    body: req.body
+  }, true)
+  log.info({req: req})
+  next();
+});
+
+server.use(function (req, res, next) {
+  function afterResponse() {
+    res.removeListener('finish', afterResponse);
+    res.removeListener('close', afterResponse);
+    var log = logger.loggerInstance.child({
+      id: req.id
+    }, true)
+    log.info({res:res}, 'response')
+  }
+  res.on('finish', afterResponse);
+  res.on('close', afterResponse);
+  next();
+});
+
+
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 server.use(cookieParser());
