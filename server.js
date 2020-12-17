@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const addRequestId = require('express-request-id')();
 const logger = require('./logger');
-// hi.js
+
 const  bunyan = require('bunyan');
 const log = bunyan.createLogger({name: 'NodeJS-IoT'});
 const httpLogger = require('exceptionless').ExceptionlessClient.default;
@@ -40,7 +40,6 @@ morgan.token('id', function getId(req) {
 });
 const loggerFormat = ':id [:date[web]]" :method :url" :status :response-time';
 
-// server.use(logger('dev'));
 server.use(morgan(loggerFormat, {
   skip: function (req, res) {
     return res.statusCode < 400
@@ -113,11 +112,21 @@ server.get("/api/vendors", api.vendors );
 
 // catch 404 and forward to error handler
 server.use(function(req, res, next) {
+  httpLogger.createNotFound(req.originalUrl).addRequestInfo(req).submit();
   next(createError(404));
 });
 
+// server.use(function(req, res, next) {
+//   httpLogger.createNotFound(req.originalUrl).addRequestInfo(req).submit();
+//   res.status(404).send('Sorry cant find that!');
+// });
+
+
 // error handler
 server.use(function(err, req, res, next) {
+
+  httpLogger.createUnhandledException(err, 'express').addRequestInfo(req).submit();
+
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -136,19 +145,10 @@ server.on('listening', function() {
 
   let host = server.address().address;
   let port = server.address().port;
-  let message = 'NodeJS-IoT: listening at http://' + host + port;
+  let message = 'XXXXXXX NodeJS-IoT: listening at http://' + host + port;
   console.log(message);
   httpLogger.submitLog('app', message , 'Info');
 });
 
-server.use(function(err, req, res, next) {
-  httpLogger.createUnhandledException(err, 'express').addRequestInfo(req).submit();
-  res.status(500).send('Something broke!');
-});
-
-server.use(function(req, res, next) {
-  httpLogger.createNotFound(req.originalUrl).addRequestInfo(req).submit();
-  res.status(404).send('Sorry cant find that!');
-});
 
 module.exports = server;
