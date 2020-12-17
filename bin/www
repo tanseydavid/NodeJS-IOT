@@ -8,6 +8,9 @@ var app = require('../server');
 var debug = require('debug')('fuelathome:server');
 var http = require('http');
 
+const httpLogger = require('exceptionless').ExceptionlessClient.default;
+httpLogger.config.apiKey = '4COaMVufYKZbSb1MEGPKZqGOiUm252ZUuhY2rUXJ';
+
 /**
  * Get port from environment and store in Express.
  */
@@ -87,4 +90,11 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+
+  var host = server.address().address;
+  var port = server.address().port;
+  var message = 'NodeJS-IOT: listening at http://' + host + port;
+  console.log(message);
+  httpLogger.submitLog('app', message , 'Info');
+  // httpLogger.submitLog('sendEvents', 'This is a test warn message', 'warn');
 }

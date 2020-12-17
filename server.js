@@ -1,17 +1,16 @@
-// hi.js
-var bunyan = require('bunyan');
-var log = bunyan.createLogger({name: 'myapp'});
-log.info('hi');
-log.warn({lang: 'fr'}, 'au revoir');
-
-
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+
 const morgan = require('morgan');
 const addRequestId = require('express-request-id')();
 const logger = require('./logger');
+// hi.js
+const  bunyan = require('bunyan');
+const log = bunyan.createLogger({name: 'NodeJS-IoT'});
+const httpLogger = require('exceptionless').ExceptionlessClient.default;
+httpLogger.config.apiKey = '4COaMVufYKZbSb1MEGPKZqGOiUm252ZUuhY2rUXJ';
 
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger.json');
@@ -126,6 +125,30 @@ server.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+// TESTING
+server.on('listening', function() {
+
+  debugger;
+  log.info('hi');
+  log.warn({lang: 'fr'}, 'au revoir');
+
+  let host = server.address().address;
+  let port = server.address().port;
+  let message = 'NodeJS-IoT: listening at http://' + host + port;
+  console.log(message);
+  httpLogger.submitLog('app', message , 'Info');
+});
+
+server.use(function(err, req, res, next) {
+  httpLogger.createUnhandledException(err, 'express').addRequestInfo(req).submit();
+  res.status(500).send('Something broke!');
+});
+
+server.use(function(req, res, next) {
+  httpLogger.createNotFound(req.originalUrl).addRequestInfo(req).submit();
+  res.status(404).send('Sorry cant find that!');
 });
 
 module.exports = server;
