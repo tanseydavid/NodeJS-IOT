@@ -6,6 +6,7 @@
     "start": "node ./bin/www  | ./node_modules/.bin/bunyan"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "bunyan": "^1.8.14",
     "bunyan-express-serializer": "^1.0.0",
     "cookie-parser": "~1.4.4",
@@ -17,6 +18,9 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
+    "passport": "^0.4.1",
+    "passport-http": "^0.3.0",
+    "passport-local-htpasswd": "^0.1.1",
     "pug": "2.0.0-beta11",
     "swagger-ui-express": "^4.1.4"
   },

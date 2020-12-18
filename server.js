@@ -1,7 +1,33 @@
+const version = require('./version')
 const createError = require('http-errors');
+const passport = require("passport")
+const BasicStrategy = require('passport-http').BasicStrategy;
 const express = require('express');
+passport.use('basic', new BasicStrategy(
+    function(userid, password, done) {
+
+        if (userid == 'log' || password == 'out') {
+          log.warn("LOGOUT");
+          return done( null, false);
+        }
+
+        return done(null, {user: "xyz"});
+
+      // User.findOne({ username: userid }, function (err, user) {
+      //   if (err) { return done(err); }
+      //   if (!user) { return done(null, false); }
+      //   if (!user.verifyPassword(password)) { return done(null, false); }
+      //   return done(null, user);
+      // });
+
+    }
+));
+const LocalHtpasswdStrategy = require('passport-local-htpasswd');
+passport.use('local-htpasswd', new LocalHtpasswdStrategy({file: 'htpasswd'}));
+
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser')
 
 const morgan = require('morgan');
 const addRequestId = require('express-request-id')();
@@ -86,6 +112,7 @@ server.use('/api-docs',swaggerUi.serve, swaggerUi.setup( swaggerDocument ));
 
 // HTML routes
 server.use('/', indexRouter);
+server.use('/login', indexRouter);
 server.use('/about', indexRouter);
 server.use('/contact', indexRouter);
 server.use('/productlines', productLinesRouter);
@@ -110,16 +137,18 @@ server.get("/api/offices", api.offices );
 server.get("/api/employees", api.employees );
 server.get("/api/vendors", api.vendors );
 
+// server.get("/api/admin", (req, res)=> {
+// server.get("/api/admin", passport.authenticate('basic', { session: false }),(req, res)=> {
+server.get("/api/admin", passport.authenticate( 'local-htpasswd', { failureRedirect: '/login' }),(req, res)=> {
+  res.render('admin', { title: 'ADMIN - Fuel@HOME', version: version });
+});
+
+
 // catch 404 and forward to error handler
 server.use(function(req, res, next) {
   httpLogger.createNotFound(req.originalUrl).addRequestInfo(req).submit();
   next(createError(404));
 });
-
-// server.use(function(req, res, next) {
-//   httpLogger.createNotFound(req.originalUrl).addRequestInfo(req).submit();
-//   res.status(404).send('Sorry cant find that!');
-// });
 
 
 // error handler
@@ -150,5 +179,10 @@ server.on('listening', function() {
   httpLogger.submitLog('app', message , 'Info');
 });
 
+// app.get('/api/me',
+//     passport.authenticate('basic', { session: false }),
+//     function(req, res) {
+//       res.json(req.user);
+//     });
 
 module.exports = server;
