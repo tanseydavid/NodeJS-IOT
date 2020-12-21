@@ -9,10 +9,10 @@ block content
         .mdl-card__supporting-text
           form( action="login", method="POST" )
             .mdl-textfield.mdl-js-textfield
-              input.mdl-textfield__input(type="text" id="username")
+              input.mdl-textfield__input(type="text" id="username" name="username")
               label.mdl-textfield__label(for="username") Username
             .mdl-textfield.mdl-js-textfield
-               input.mdl-textfield__input(type="password" id="userpass")
+               input.mdl-textfield__input(type="password" id="userpass" name="password")
                label.mdl-textfield__label(for="userpass") Password
             .mdl-card__actions.mdl-card--border
               button.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect Log in

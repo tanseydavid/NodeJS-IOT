@@ -1,33 +1,35 @@
 const version = require('./version')
-const createError = require('http-errors');
-const passport = require("passport")
-const BasicStrategy = require('passport-http').BasicStrategy;
-const express = require('express');
-passport.use('basic', new BasicStrategy(
-    function(userid, password, done) {
-
-        if (userid == 'log' || password == 'out') {
-          log.warn("LOGOUT");
-          return done( null, false);
-        }
-
-        return done(null, {user: "xyz"});
-
-      // User.findOne({ username: userid }, function (err, user) {
-      //   if (err) { return done(err); }
-      //   if (!user) { return done(null, false); }
-      //   if (!user.verifyPassword(password)) { return done(null, false); }
-      //   return done(null, user);
-      // });
-
-    }
-));
-const LocalHtpasswdStrategy = require('passport-local-htpasswd');
-passport.use('local-htpasswd', new LocalHtpasswdStrategy({file: 'htpasswd'}));
-
 const path = require('path');
+const createError = require('http-errors');
+passport = require("passport")
+const express = require('express');
+
+// const BasicStrategy = require('passport-http').BasicStrategy;
+// passport.use('basic', new BasicStrategy(
+//     function(userid, password, done) {
+//
+//         if (userid == 'log' || password == 'out') {
+//           log.warn("LOGOUT");
+//           return done( null, false);
+//         }
+//
+//         return done(null, {user: "xyz"});
+//
+//       // User.findOne({ username: userid }, function (err, user) {
+//       //   if (err) { return done(err); }
+//       //   if (!user) { return done(null, false); }
+//       //   if (!user.verifyPassword(password)) { return done(null, false); }
+//       //   return done(null, user);
+//       // });
+//
+//     }
+// ));
+
+// const LocalHtpasswdStrategy = require('passport-local-htpasswd');
+// let filename = path.resolve(__dirname, '.htpasswd');
+// passport.use('local-htpasswd', new LocalHtpasswdStrategy({file: filename}));
+
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser')
 
 const morgan = require('morgan');
 const addRequestId = require('express-request-id')();
@@ -35,7 +37,7 @@ const logger = require('./logger');
 
 const  bunyan = require('bunyan');
 const log = bunyan.createLogger({name: 'NodeJS-IoT'});
-const httpLogger = require('exceptionless').ExceptionlessClient.default;
+httpLogger = require('exceptionless').ExceptionlessClient.default;
 httpLogger.config.apiKey = '4COaMVufYKZbSb1MEGPKZqGOiUm252ZUuhY2rUXJ';
 
 const swaggerUi = require('swagger-ui-express')
@@ -59,6 +61,10 @@ const server = express();
 // view engine setup
 server.set('views', path.join(__dirname, 'views'));
 server.set('view engine', 'pug');
+
+const bodyParser = require('body-parser')
+server.use(bodyParser.urlencoded({ extended: false }));
+server.use(bodyParser.json());
 
 server.use(addRequestId);
 morgan.token('id', function getId(req) {
@@ -86,6 +92,7 @@ server.use(function (req, res, next){
     body: req.body
   }, true)
   log.info({req: req})
+
   next();
 });
 
@@ -103,6 +110,11 @@ server.use(function (req, res, next) {
   next();
 });
 
+
+//code before
+var user = require('./models/user.js');
+var auth = require('./auth.js')(server, user);
+// code after
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
@@ -137,12 +149,30 @@ server.get("/api/offices", api.offices );
 server.get("/api/employees", api.employees );
 server.get("/api/vendors", api.vendors );
 
-// server.get("/api/admin", (req, res)=> {
+isAuthenticated = function(req,res,next){
+  if(req.user)
+    return next();
+  else
+    return res.status(401).json({
+      error: 'User not authenticated'
+    })
+}
+
+server.get("/api/admin", isAuthenticated, (req, res)=> {
 // server.get("/api/admin", passport.authenticate('basic', { session: false }),(req, res)=> {
-server.get("/api/admin", passport.authenticate( 'local-htpasswd', { failureRedirect: '/login' }),(req, res)=> {
+// server.get("/api/admin", passport.authenticate( 'local-htpasswd', { failureRedirect: '/login' }),(req, res)=> {
+// server.get("/api/admin", isAuthenticated, (req, res)=> {
   res.render('admin', { title: 'ADMIN - Fuel@HOME', version: version });
 });
 
+
+
+// router.get('/checkauth', isAuthenticated, function(req, res){
+//
+//   res.status(200).json({
+//     status: 'Login successful!'
+//   });
+// });
 
 // catch 404 and forward to error handler
 server.use(function(req, res, next) {
@@ -185,4 +215,5 @@ server.on('listening', function() {
 //       res.json(req.user);
 //     });
 
-module.exports = server;
+// module.exports = { server: server, httpLogger: httpLogger };
+module.exports = { server: server, httpLogger: httpLogger };
