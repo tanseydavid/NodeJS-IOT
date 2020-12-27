@@ -1,4 +1,4 @@
-extends layout
+extends layout-admin
 include mixins/util
 
 block content
@@ -6,31 +6,61 @@ block content
   h4 Classic Models - NodeJS Reference Application
   p v#{ version }
   div.row
-    div.column
-      h3 Back-End
-        h4 NodeJS
-          p v14.8.0 &nbsp;
-            +link('https://nodejs.org/en/about/releases/', 'more info')(class="btn")
-        h4 MySQL
-          p v8.0.21 &nbsp;
-            +link('https://dev.mysql.com/', 'more info')
-            br
-            +link('https://www.mysqltutorial.org/mysql-sample-database.aspx/', 'sample database')(class="btn")
-        h4 ExpressJS
-          p v4.17.1 &nbsp;
-            +link('https://expressjs.com/', 'more info')(class="btn")
-    div.column
-      h3 Front-End
-        h4 PUG templates
-          p v3 (formerly JADE) &nbsp;
-            +link('https://pugjs.org/api/getting-started.html', 'more info')(class="btn")
-        h4 Material Design Lite
-          p v0.10.0 &nbsp;
-            +link('https://getmdl.io/', 'more info')(class="btn")
-    div.column
-      h3 Source Code
-        ul
-          li
-            h4 GitHub (public)
-            +link('https://github.com/tanseydavid/NodeJS-IoT', 'view repo')(class="btn")
-        
+    div.columnmix
+      div.mdl-cell.mdl-cell--3-col.graybox
+        div(class="demo-card-wide-xxx mdl-card mdl-shadow--6dp")
+          div.mdl-card__title
+            h3.mdl-card__title-text(style="color:grey")
+              strong Backend
+                h5 NodeJS
+                  p v14.8.0 &nbsp;
+                    +link('https://nodejs.org/en/about/releases/', 'more info')(class="btn")
+                h5 ExpressJS
+                  p v4.17.1 &nbsp;
+                    +link('https://expressjs.com/', 'more info')(class="btn")
+                h5 MySQL
+                  p v8.0.21 &nbsp;
+                    +link('https://dev.mysql.com/', 'more info')
+                    |  &nbsp;
+                    +link('https://www.mysqltutorial.org/mysql-sample-database.aspx/', 'sample database')(class="btn")
+          div.mdl-card__actions.mdl-card--border
+            a(href='').mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect
+              | See All
+              |
+          div.mdl-card__menu
+            button.mdl-button.mdl-button--icon.mdl-js-button.mdl-js-ripple-effect
+              i.material-icons
+                share
+
+    div.mdl-cell.mdl-cell--3-col.graybox
+      div(class="demo-card-wide-xxx mdl-card mdl-shadow--6dp")
+        div.mdl-card__title
+          h3.mdl-card__title-text(style="color:grey")
+            strong Frontend
+              h5 PUG templates
+                p v3 (formerly JADE) &nbsp;
+                  +link('https://pugjs.org/api/getting-started.html', 'more info')(class="btn")
+              h5 Material Design Lite
+                p v0.10.0 &nbsp;
+                  +link('https://getmdl.io/', 'more info')(class="btn")
+        div.mdl-card__actions.mdl-card--border
+          a(href='').mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect
+            | See All
+            |
+        div.mdl-card__menu
+          button.mdl-button.mdl-button--icon.mdl-js-button.mdl-js-ripple-effect
+            i.material-icons
+              share
+
+    div.mdl-cell.mdl-cell--3-col.graybox
+      div(class="demo-card-wide-xxx mdl-card mdl-shadow--6dp")
+        div.mdl-card__title
+          h3.mdl-card__title-text(style="color:grey")
+            strong Source Code
+              h5 GitHub
+                | 
+                small (public)
+                |
+                br
+                small
+                  +link('https://github.com/tanseydavid/NodeJS-IoT', 'view repo')(class="btn")

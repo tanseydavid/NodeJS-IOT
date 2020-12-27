@@ -1,10 +1,9 @@
 {
-  "name": "fuelathome",
-  "version": "1.0.12",
+  "name": "classicmodels",
+  "version": "1.0.15",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www  | ./node_modules/.bin/bunyan",
-    "start.dev": "nodemon"
+    "start": "node ./bin/www  | ./node_modules/.bin/bunyan"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
