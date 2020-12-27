@@ -1,8 +1,6 @@
 const path = require('path');
-var passport = require('passport');
-var session = require('express-session');
-// var LocalStrategy = require('passport-local').Strategy;
-// const LocalStrategy = require('passport-local-htpasswd');
+let passport = require('passport');
+let session = require('express-session');
 const LocalHtpasswdStrategy = require('passport-local-htpasswd');
 
 module.exports = function(app, user){
@@ -19,7 +17,7 @@ module.exports = function(app, user){
     // passport config
     // passport.use(new LocalStrategy(user.authenticate()));
     let filename = path.resolve(__dirname, '.htpasswd');
-    // passport.use('local', new LocalStrategy({file: filename}));
+    httpLogger.submitLog('app',  'AUTH started using file: ' + filename, 'Info');
     passport.use('local-htpasswd', new LocalHtpasswdStrategy({file: filename}));
 
     passport.serializeUser(function(user, done) {
@@ -42,4 +40,5 @@ module.exports = function(app, user){
     //         done(err, user);
     //     });
     // });
+
 };

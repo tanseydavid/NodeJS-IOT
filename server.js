@@ -1,33 +1,8 @@
-const version = require('./version')
+const version = require('./version');
 const path = require('path');
 const createError = require('http-errors');
-passport = require("passport")
+passport = require("passport");
 const express = require('express');
-
-// const BasicStrategy = require('passport-http').BasicStrategy;
-// passport.use('basic', new BasicStrategy(
-//     function(userid, password, done) {
-//
-//         if (userid == 'log' || password == 'out') {
-//           log.warn("LOGOUT");
-//           return done( null, false);
-//         }
-//
-//         return done(null, {user: "xyz"});
-//
-//       // User.findOne({ username: userid }, function (err, user) {
-//       //   if (err) { return done(err); }
-//       //   if (!user) { return done(null, false); }
-//       //   if (!user.verifyPassword(password)) { return done(null, false); }
-//       //   return done(null, user);
-//       // });
-//
-//     }
-// ));
-
-// const LocalHtpasswdStrategy = require('passport-local-htpasswd');
-// let filename = path.resolve(__dirname, '.htpasswd');
-// passport.use('local-htpasswd', new LocalHtpasswdStrategy({file: filename}));
 
 const cookieParser = require('cookie-parser');
 
@@ -39,13 +14,16 @@ const  bunyan = require('bunyan');
 const log = bunyan.createLogger({name: 'NodeJS-IoT'});
 httpLogger = require('exceptionless').ExceptionlessClient.default;
 httpLogger.config.apiKey = '4COaMVufYKZbSb1MEGPKZqGOiUm252ZUuhY2rUXJ';
+httpLogger.config.useSessions();
+global.httpLogger = httpLogger;
 
-const swaggerUi = require('swagger-ui-express')
+const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
+const adminRouter = require('./routes/admin');
 const productLinesRouter = require('./routes/productlines');
 const productsRouter = require('./routes/products');
 const customersRouter = require('./routes/customers');
@@ -55,14 +33,14 @@ const officesRouter = require('./routes/offices');
 const employeesRouter = require('./routes/employees');
 const vendorsRouter = require('./routes/vendors');
 
-const api = require('./api')
+const api = require('./api');
 const server = express();
 
 // view engine setup
 server.set('views', path.join(__dirname, 'views'));
 server.set('view engine', 'pug');
 
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
@@ -112,9 +90,14 @@ server.use(function (req, res, next) {
 
 
 //code before
-var user = require('./models/user.js');
-var auth = require('./auth.js')(server, user);
+let user = require('./models/user.js');
+let auth = require('./auth.js')(server, user);
 // code after
+
+server.use(function(req, res, next){
+  res.locals.user = req.user;
+  next();
+});
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
@@ -125,8 +108,10 @@ server.use('/api-docs',swaggerUi.serve, swaggerUi.setup( swaggerDocument ));
 // HTML routes
 server.use('/', indexRouter);
 server.use('/login', indexRouter);
+server.use('/logout', indexRouter);
 server.use('/about', indexRouter);
 server.use('/contact', indexRouter);
+server.use('/admin', adminRouter);
 server.use('/productlines', productLinesRouter);
 server.use('/products', productsRouter);
 server.use('/customers', customersRouter);
@@ -149,37 +134,11 @@ server.get("/api/offices", api.offices );
 server.get("/api/employees", api.employees );
 server.get("/api/vendors", api.vendors );
 
-isAuthenticated = function(req,res,next){
-  if(req.user)
-    return next();
-  else
-    return res.status(401).json({
-      error: 'User not authenticated'
-    })
-}
-
-server.get("/api/admin", isAuthenticated, (req, res)=> {
-// server.get("/api/admin", passport.authenticate('basic', { session: false }),(req, res)=> {
-// server.get("/api/admin", passport.authenticate( 'local-htpasswd', { failureRedirect: '/login' }),(req, res)=> {
-// server.get("/api/admin", isAuthenticated, (req, res)=> {
-  res.render('admin', { title: 'ADMIN - Fuel@HOME', version: version });
-});
-
-
-
-// router.get('/checkauth', isAuthenticated, function(req, res){
-//
-//   res.status(200).json({
-//     status: 'Login successful!'
-//   });
-// });
-
 // catch 404 and forward to error handler
 server.use(function(req, res, next) {
   httpLogger.createNotFound(req.originalUrl).addRequestInfo(req).submit();
   next(createError(404));
 });
-
 
 // error handler
 server.use(function(err, req, res, next) {
@@ -198,15 +157,16 @@ server.use(function(err, req, res, next) {
 // TESTING
 server.on('listening', function() {
 
-  debugger;
-  log.info('hi');
-  log.warn({lang: 'fr'}, 'au revoir');
+  // log.info('hi');
+  // log.warn({lang: 'fr'}, 'au revoir');
 
   let host = server.address().address;
   let port = server.address().port;
-  let message = 'XXXXXXX NodeJS-IoT: listening at http://' + host + port;
+  let message = 'NodeJS-IoT: listening at http://' + host + port;
+  console.log('-----------------------------------------------------------------');
   console.log(message);
-  httpLogger.submitLog('app', message , 'Info');
+  console.log('-----------------------------------------------------------------');
+  httpLogger.submitLog('app', message, 'Info');
 });
 
 // app.get('/api/me',

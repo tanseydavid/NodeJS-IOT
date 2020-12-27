@@ -7,14 +7,33 @@ header.mdl-layout__header
     .mdl-layout-spacer
     // Navigation. We hide it in small screens.
     nav.mdl-navigation.mdl-layout--large-screen-only
-      a.mdl-navigation__link.mdl-typography--text-uppercase(href='/') Home
-      a.mdl-navigation__link.mdl-typography--text-uppercase(href='/about') About
-      a.mdl-navigation__link.mdl-typography--text-uppercase(href='/contact') Contact
-      a.mdl-navigation__link.mdl-typography--text-uppercase(href='/login') Login
+      if user != null
+        span #{user.username}
+      a.mdl-navigation__link.mdl-typography--text-uppercase(href='/')
+        i.material-icons.md-light
+          | home &nbsp;
+        | Home
+      a.mdl-navigation__link.mdl-typography--text-uppercase(href='/about')
+        i.material-icons.md-light
+          | help &nbsp;
+        | About
+      if user != null
+        a.mdl-navigation__link.mdl-typography--text-uppercase(href='/logout')
+          i.material-icons.md-light
+            | account_box &nbsp;
+          | Logout
+      else
+        a.mdl-navigation__link.mdl-typography--text-uppercase(href='/login') Login
+
 .mdl-layout__drawer
   span.mdl-layout-title
       | Fuel@HOME
   nav.mdl-navigation
-    a.mdl-navigation__link.mdl-typography--text-uppercase(href='/') Home
-    a.mdl-navigation__link.mdl-typography--text-uppercase(href='/about') About
-    a.mdl-navigation__link.mdl-typography--text-uppercase(href='/contact') Contact
+    a.mdl-navigation__link.mdl-typography--text-uppercase(href='/')
+      i.material-icons.md-light
+        | home &nbsp;
+      | Home
+    a.mdl-navigation__link.mdl-typography--text-uppercase(href='/about')
+      i.material-icons.md-light
+        | help &nbsp;
+      | About
