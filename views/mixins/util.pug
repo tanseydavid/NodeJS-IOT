@@ -9,8 +9,9 @@ mixin productLineCard( productLine )
     div.mdl-cell.mdl-cell--3-col.graybox
         div(class="demo-card-wide-" + productLine.productLineClass + " mdl-card mdl-shadow--6dp")
             div.mdl-card__title
-                h2.mdl-card__title-text
-                    =productLine.productLine
+                h3.mdl-card__title-text
+                    strong
+                      =productLine.productLine
             div.mdl-card__supporting-text
                 p=productLine.textDescription
             div.mdl-card__actions.mdl-card--border

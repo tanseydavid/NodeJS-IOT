@@ -2,8 +2,8 @@ export const swaggerDocument = {
     openapi: '3.0.1',
     info: {
         version: '1.0.0',
-        title: 'Fuel@HOME APIs Document',
-        description: 'API endpoints for Fuel@HOME server',
+        title: 'ClassicModels APIs Document',
+        description: 'API endpoints for ClassicModels server',
         termsOfService: '',
         contact: {
             name: 'David Tansey',

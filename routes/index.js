@@ -2,9 +2,20 @@ const express = require('express');
 const router = express.Router();
 const version = require('../version')
 
+isAuthenticated = function(req,res,next) {
+  if(req.user)  {
+    res.locals.user = req.user
+    return true;
+  }
+  return false;
+}
+
 /* GET / page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Fuel@HOME', version: version });
+  if (!isAuthenticated(req, res, next))
+    return res.redirect( '/productlines');
+  else
+    res.render('index', { title: 'Classic Models', version: version });
 });
 
 /* GET LOGIN page. */

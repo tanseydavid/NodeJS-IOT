@@ -2,7 +2,7 @@ header.mdl-layout__header
   .mdl-layout__header-row
     // Title
     span.mdl-layout-title
-      | Fuel@HOME
+      | Classic Models
     // Add spacer, to align navigation to the right
     .mdl-layout-spacer
     // Navigation. We hide it in small screens.
@@ -10,8 +10,10 @@ header.mdl-layout__header
       if user != null
         span #{user.username}
       a.mdl-navigation__link.mdl-typography--text-uppercase(href='/')
-        i.material-icons.md-light
+
+        i.material-icons.md-light(id='iconhome')
           | home &nbsp;
+        div.mdl-tooltip(for="iconhome") Home
         | Home
       a.mdl-navigation__link.mdl-typography--text-uppercase(href='/about')
         i.material-icons.md-light
@@ -27,7 +29,7 @@ header.mdl-layout__header
 
 .mdl-layout__drawer
   span.mdl-layout-title
-      | Fuel@HOME
+      | Classic Models
   nav.mdl-navigation
     a.mdl-navigation__link.mdl-typography--text-uppercase(href='/')
       i.material-icons.md-light

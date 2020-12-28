@@ -1,14 +1,14 @@
-extends layout
+extends layout-admin
 
 block content
-  h1= title
+  h4= title
   - var dateFormat = { year: "numeric", month: "2-digit", day: "2-digit" };
   h3
     | #{order.customerName }
-  h5
-    | Customer #
-    a(href=order.hrefCustomer) #{order.customerNumber }
-    |
+    small
+      |  (Customer #
+      a(href=order.hrefCustomer) #{order.customerNumber }
+      | )
   hr
   div
     table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp

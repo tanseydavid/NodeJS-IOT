@@ -17,4 +17,5 @@ COPY . .
 
 EXPOSE 3080
 # CMD [ "node", "server.js" ]
-CMD [ "npm", "start" ]
+# CMD [ "npm", "start" ]
+CMD [ "npm", "run", "start.dev" ]

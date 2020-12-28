@@ -1,7 +1,7 @@
-extends layout
+extends layout-admin
 
 block content
-  h1= title
+  h3= title
 
   div
     table
@@ -12,7 +12,8 @@ block content
         each row, i in rows
           tr
             td(align='left')
-              h4
+              h5
                 a(href=row.href) #{row.city}
             td
-              span #{row.phone}
+              h6
+                span #{row.phone}

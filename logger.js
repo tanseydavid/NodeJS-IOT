@@ -19,10 +19,10 @@ exports.loggerInstance = bunyan.createLogger({
 });
 
 exports.logResponse = function (id, body, statusCode) {
-    var log = this.loggerInstance.child({
-        id: id,
-        body: body,
-        statusCode: statusCode
-    }, true)
-    log.info('response')
+    // var log = this.loggerInstance.child({
+    //     id: id,
+    //     body: body,
+    //     statusCode: statusCode
+    // }, true)
+    // log.info('response')
 }

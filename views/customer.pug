@@ -1,15 +1,16 @@
-extends layout
+extends layout-admin
 
 block content
-  h1= title
+  h3= title
   - var dateFormat = { year: "numeric", month: "2-digit", day: "2-digit" };
-  h4.
+  h5.
     #{ "Customer #" + customer.customerNumber }
   div
-    div= customer.addressLine1
-    div= customer.addressLine2
-    div= customer.city + ", " + customer.state + "  " + customer.postalCode
-    div= customer.country
+    pre.
+      #{customer.addressLine1}
+      #{customer.addressLine2}
+      #{customer.city + ", " + customer.state + "  " + customer.postalCode}
+      #{customer.country}
   br/
   div
     table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp

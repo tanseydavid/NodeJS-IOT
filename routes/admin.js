@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const version = require('../version')
+const version = require('../version');
+const path = require('path');
 
 myisAuthenticated = function(req,res,next) {
   if(req.user)  {
@@ -21,7 +22,15 @@ requireAuthentication = function(req,res,next) {
 
 /* GET / page. */
 router.get('/', requireAuthentication, function(req, res, next) {
-  res.render('admin', { title: 'ADMIN - Fuel@HOME', version: version });
+  res.render('admin', { title: 'ADMIN - Classic Models', version: version });
 });
+
+router.get('/index', requireAuthentication, function(req, res, next) {
+  res.render('admin-index', { title: 'ADMIN - Classic Models', version: version });
+});
+
+// router.get('/index', function(req, res) {
+//   res.sendFile(path.join(__dirname + '/indexadmin.html'));
+// });
 
 module.exports = router;

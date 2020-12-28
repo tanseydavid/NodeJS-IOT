@@ -1,16 +1,15 @@
-extends layout
+extends layout-admin
 
 block content
-  h1= title
+  h3= title
 
   p
-    h3=office.phone
-    p.
+    h5=office.phone
+    pre.
       #{office.addressLine1} #{office.addressLine2}
-    p.
       #{office.city}, #{office.state}
-      &nbsp;&nbsp; #{office.postalCode}
-    p.
+      #{office.postalCode}
+    pre.
       #{office.country}
 
   br

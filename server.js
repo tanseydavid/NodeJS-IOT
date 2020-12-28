@@ -1,3 +1,4 @@
+const config = require('dotenv').config();
 const version = require('./version');
 const path = require('path');
 const createError = require('http-errors');
@@ -19,8 +20,6 @@ global.httpLogger = httpLogger;
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
-
-require('dotenv').config();
 
 const indexRouter = require('./routes/index');
 const adminRouter = require('./routes/admin');
@@ -97,6 +96,7 @@ let auth = require('./auth.js')(server, user);
 server.use(function(req, res, next){
   res.locals.user = req.user;
   next();
+  // console.log();
 });
 
 server.use(express.json());
